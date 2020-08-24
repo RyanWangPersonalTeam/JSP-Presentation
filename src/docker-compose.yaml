@@ -1,0 +1,26 @@
+version: '3'
+services: 
+    web-ui:
+        image: my-angular-prod:latest
+        ports: 
+            - 9902:80
+        depends_on: 
+            - web-api
+    
+    web-api:
+        image: my-api:latest
+        ports: 
+            - 5000:5000
+            - 9901:5001
+        depends_on: 
+            - rabbitmq
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports: 
+            - 5672:5672
+            - 15672:15672
+
+   
+
+    

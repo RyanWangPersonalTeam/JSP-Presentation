@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
+    <!--<moveThreadCount>AUTO</moveThreadCount>--><!-- To solve faster by saturating multiple CPU cores -->
+
+    <solutionClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule</solutionClass>
+    <entityClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation</entityClass>
+    <environmentMode>NON_REPRODUCIBLE</environmentMode>
+    <moveThreadCount>AUTO</moveThreadCount>
+    <scoreDirectorFactory>
+        <scoreDrl>wzy/jsp/simplest/demo/optaplanner/solver/rules/delaytimemodelSolverScoreRules.drl</scoreDrl>
+    </scoreDirectorFactory>
+    <termination>
+        <minutesSpentLimit>5</minutesSpentLimit>
+    </termination>
+
+<!--    <constructionHeuristic>-->
+<!--        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>-->
+<!--    </constructionHeuristic>-->
+<!--    <localSearch>-->
+<!--        <localSearchType>TABU_SEARCH</localSearchType>-->
+<!--    </localSearch>-->
+    <localSearch>
+        <unionMoveSelector>
+            <changeMoveSelector>
+                <valueSelector variableName="selectedExecutionMode"/>
+            </changeMoveSelector>
+            <changeMoveSelector>
+                <valueSelector variableName="delayAfterPredecessor"/>
+            </changeMoveSelector>
+        </unionMoveSelector>
+        <acceptor>
+            <entityTabuRatio>0.2</entityTabuRatio>
+            <lateAcceptanceSize>500</lateAcceptanceSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>10</acceptedCountLimit>
+        </forager>
+    </localSearch>
+</solver>
+

@@ -1,0 +1,61 @@
+package wzy.jsp.simplest.demo.optaplanner.solver.rules;
+
+import org.optaplanner.core.api.score.buildin.bendable.BendableScoreHolder;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.ExecutionMode;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.OptaJob;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.ResourceRequirement;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.OptaTask;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource;
+import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.score.drools.RenewableResourceUsedTimePoint;
+
+global BendableScoreHolder scoreHolder;
+
+// ############################################################################
+// Soft constraints 1
+// ############################################################################
+rule "totalMakespan"
+    when
+        accumulate(
+            Allocation( successorTaskAllocation==null ,delayAfterPredecessor!=null,selectedExecutionMode!=null, $endTime : endTime);
+            //$sumEndTimeAllJobs : max($endTime)
+            $maxEndTimeAllJobs : max($endTime)
+        )
+    then
+       //System.out.println("totalMakespan : " + $sumEndTimeAllJobs);
+       scoreHolder.addSoftConstraintMatch(kcontext, 0,  - (Integer) $maxEndTimeAllJobs);
+end
+
+// ############################################################################
+// Hard constraints 1
+// ############################################################################
+rule "RenewableResourceUsedTimePoint"
+        salience 10 // Do these rules first (optional, for performance)
+    when
+        ResourceRequirement(resourceRenewable == true, $executionMode : executionMode, $resource : resource)
+        $allocation : Allocation(selectedExecutionMode == $executionMode,
+                            $startTime : startTime, $endTime : endTime)
+    then
+        //System.out.println($allocation.getTask().getName()+" from "+$startTime+" to "+$endTime);
+        for (int i = $startTime; i <= $endTime; i++) {
+            //System.out.println("Insert RenewableResourceUsedTimePoint at " + i + " of "+$resource.getName());
+            insertLogical(new RenewableResourceUsedTimePoint($resource, i));
+        }
+end
+
+rule "renewableResourceCapacity"
+    when
+        RenewableResourceUsedTimePoint($resource : resource, $capacity : resourceCapacity, $timePoint : timePoint)
+        accumulate(
+            ResourceRequirement(resource == $resource,
+                    $executionMode : executionMode,
+                    $requirement : requirement)
+            and Allocation(selectedExecutionMode == $executionMode, $timePoint >= startTime, $timePoint < endTime);
+            $used : sum($requirement);
+            $used > $capacity
+        )
+    then
+        //System.out.println("Break Renewable Resource Capacity constraint at " + $timePoint);
+        scoreHolder.addHardConstraintMatch(kcontext, 0, $capacity - $used);
+end

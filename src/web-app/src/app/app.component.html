@@ -1,0 +1,49 @@
+<h1 style="text-align: center">Jop Shop Schedule Demo</h1>
+
+<div class="table-1">
+  <div class="table-cell-1">
+      <button  mat-raised-button color="accent" (click)="onSampleData()" [disabled]="disableGenerateTestData">Generate Test Data</button>
+  </div>
+  <div class="table-cell-1">
+      <button  mat-raised-button color="accent" (click)="onCalculate()" [disabled]="disabledCalculate">Calculate</button>
+  </div>
+  <div class="table-cell-2">
+      {{currentStatusStr}}
+  </div>
+  <div class="table-cell-1">
+      <mat-progress-spinner *ngIf="disabledSpinner === true" 
+              color="accent" 
+              diameter="40" 
+              mode='indeterminate'
+              >
+      </mat-progress-spinner>
+  </div>
+  <div class="table-cell-1">
+      Job : {{demoSetting.jobNum}}
+  </div>
+  <div class="table-cell-1">
+      Task : {{demoSetting.taskNumPerJob}}
+  </div>
+  <div class="table-cell-1">
+      RepresentType : {{representNames[demoSetting.representType]}}
+  </div>
+  <div class="table-cell-1">
+      Algorithm : {{algorithmNames[demoSetting.algorithmType]}}
+  </div>
+  <div style="right: 20px;
+              bottom: auto;
+              top: 20px;
+              left: auto;
+              position: absolute;
+              z-index: 9999;">
+      <button mat-fab (click)="changeDemoSetting()" [disabled]="disabledSetting">
+          Setting
+      </button>
+  </div>
+</div>
+
+  <mat-card>
+  <gstc [config]="config" (onState)="onState($event)"></gstc>
+</mat-card>
+
+

@@ -1,0 +1,32 @@
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>edu-cloud</contextName>
+    <property name="LOG_HOME" value="logs"/>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %logger输出日志的logger名 %msg：日志消息，%n是换行符 -->
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %logger{36} : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>error</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5level %logger{36} : %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.optaplanner" level="${logback.level.org.optaplanner:-debug}">
+        <appender-ref ref="stdout"/>
+    </logger>
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorFile"/>
+    </root>
+</configuration>
