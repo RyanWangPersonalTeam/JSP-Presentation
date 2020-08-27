@@ -1,0 +1,2 @@
+#!/bin/bash
+java '-Djava.library.path=/my-service/src/or-tools/lib' -jar /my-service/target/JspAlgorithmService.jar

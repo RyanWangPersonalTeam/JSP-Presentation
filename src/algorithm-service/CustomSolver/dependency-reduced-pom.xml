@@ -23,9 +23,6 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-          <compilerArguments>
-            <extdirs>./src/or-tools_v7.8.7959/lib</extdirs>
-          </compilerArguments>
         </configuration>
       </plugin>
       <plugin>
@@ -64,47 +61,12 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <manifestEntries>
-                    <Main-Class>wzy.jsp.simplest.demo.App</Main-Class>
-                  </manifestEntries>
+                  <mainClass>wzy.jsp.simplest.demo.App</mainClass>
                 </transformer>
                 <transformer>
                   <resource>META-INF/kie.conf</resource>
                 </transformer>
               </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <id>build-classpath</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>build-classpath</goal>
-            </goals>
-            <configuration>
-              <outputFile>${cpfile}</outputFile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>gmaven-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <source>def file = new File(project.properties.cpfile)
-                  project.properties.cp = file.getText()</source>
             </configuration>
           </execution>
         </executions>
@@ -127,7 +89,6 @@
   </dependencies>
   <properties>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <cpfile>cp.txt</cpfile>
     <maven.compiler.source>1.7</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

@@ -60,16 +60,16 @@
       <groupId>com.google.ortools</groupId>
       <artifactId>ortools-java</artifactId>
       <version>1.0.0</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/src/or-tools/lib/com.google.ortools.jar</systemPath>
+<!--      <scope>system</scope>-->
+<!--      <systemPath>${basedir}/src/or-tools/lib/com.google.ortools.jar</systemPath>-->
     </dependency>
 
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
       <version>3.6.1</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/src/or-tools/lib/protobuf.jar</systemPath>
+<!--      <scope>system</scope>-->
+<!--      <systemPath>${basedir}/src/or-tools/lib/protobuf.jar</systemPath>-->
     </dependency>
 
   </dependencies>
@@ -98,22 +98,10 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
-<!--          <configuration>-->
-<!--            <forkMode>once</forkMode>-->
-<!--            <workingDirectory>target</workingDirectory>-->
-<!--            <argLine>-Djava.library.path='${basedir}/src/or-tools_v7.8.7959/lib'</argLine>-->
-<!--          </configuration>-->
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
-          <configuration>
-            <archive>
-              <manifest>
-                <mainClass>wzy.jsp.simplest.demo.App</mainClass>
-              </manifest>
-            </archive>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -132,19 +120,27 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <plugin>
-          <groupId>com.jolira</groupId>
-          <artifactId>onejar-maven-plugin</artifactId>
-          <version>1.4.4</version>
+
+         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.3</version>
           <executions>
             <execution>
-              <configuration>
-                <attachToBuild>true</attachToBuild>
-                <classifier>onejar</classifier>
-              </configuration>
+              <phase>package</phase>
               <goals>
-                <goal>one-jar</goal>
+                <goal>shade</goal>
               </goals>
+              <configuration>
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>wzy.jsp.simplest.demo.App</mainClass>
+                  </transformer>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                    <resource>META-INF/kie.conf</resource>
+                  </transformer>
+                </transformers>
+              </configuration>
             </execution>
           </executions>
         </plugin>

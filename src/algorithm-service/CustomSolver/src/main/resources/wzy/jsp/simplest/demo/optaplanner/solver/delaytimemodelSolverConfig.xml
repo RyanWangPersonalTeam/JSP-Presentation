@@ -6,7 +6,7 @@
     <solutionClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule</solutionClass>
     <entityClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation</entityClass>
     <environmentMode>NON_REPRODUCIBLE</environmentMode>
-    <moveThreadCount>AUTO</moveThreadCount>
+<!--    <moveThreadCount>AUTO</moveThreadCount>-->
     <scoreDirectorFactory>
         <scoreDrl>wzy/jsp/simplest/demo/optaplanner/solver/rules/delaytimemodelSolverScoreRules.drl</scoreDrl>
     </scoreDirectorFactory>

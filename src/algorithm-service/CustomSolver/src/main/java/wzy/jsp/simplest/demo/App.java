@@ -31,6 +31,8 @@ import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource
 import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.test.TestScheduleInstaneGenerator;
 import wzy.jsp.simplest.demo.generator.TestSolutionGenerator;
 
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.nio.channels.ClosedSelectorException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -48,20 +50,47 @@ public class App
 
     public static void main( String[] args ) throws Exception {
 
-        try {
-            while (true) {
-                try (AMQPHandler amqpHandler = new AMQPHandler("localhost")) {
-                    amqpHandler.SendServiceStatus(false);
-                    amqpHandler.RegisterRequestHandleCallback(new MainAlgorithmProcess());
-                    while (!amqpHandler.isExit()) ;
-                }
-            }
-
-        } catch (Exception ex) {
+        while(true){
             Logger logger = LoggerFactory.getLogger(App.class);
-            logger.error(ex.getMessage(), ex);
-            logger.info("Algorithm service stopped");
+            try {
+                while (true) {
+                    try (AMQPHandler amqpHandler = new AMQPHandler("rabbitmq")) {//if deployed into container, it should be the container name or service name
+                        amqpHandler.SendServiceStatus(false);
+                        amqpHandler.RegisterRequestHandleCallback(new MainAlgorithmProcess());
+                        while (!amqpHandler.isExit()) ;
+                    }
+                }
+
+            }catch (UnknownHostException uex){//The rabbitmq service may still be down, if so, wait for a while and try again
+                logger.warn(uex.getMessage(), uex);
+                logger.warn("Algorithm will try again after 5 s");
+                Thread.sleep(5000);
+            }catch (ConnectException cex){
+                logger.warn(cex.getMessage(), cex);
+                logger.warn("Algorithm will try again after 5 s");
+                Thread.sleep(5000);
+            }catch (Exception ex) {
+                logger.error(ex.getMessage(), ex);
+                logger.info("Algorithm service stopped");
+                break;
+            }
         }
+
+//        Logger logger = LoggerFactory.getLogger(App.class);
+//        try {
+//            while (true) {
+//                try (AMQPHandler amqpHandler = new AMQPHandler("rabbitmq")) {//if deployed into container, it should be the container name or service name
+//                    amqpHandler.SendServiceStatus(false);
+//                    amqpHandler.RegisterRequestHandleCallback(new MainAlgorithmProcess());
+//                    while (!amqpHandler.isExit()) ;
+//                }
+//            }
+//
+//        }catch (Exception ex) {
+//            logger.error(ex.getMessage(), ex);
+//            logger.info("Algorithm service stopped");
+//        }
+
 
     }
 }

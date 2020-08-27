@@ -1,25 +1,41 @@
 version: '3'
 services: 
-    web-ui:
-        image: my-angular-prod:latest
+    my-ui:
+        image: jsp-angular-prod:latest
         ports: 
             - 9902:80
-        depends_on: 
-            - web-api
+        networks:
+            - jsp-net
     
-    web-api:
-        image: my-api:latest
+    my-api:
+        image: jsp-api:latest
         ports: 
             - 5000:5000
             - 9901:5001
         depends_on: 
             - rabbitmq
+        networks:
+            - jsp-net
+    
+    my-al-service:
+        image: jsp-al-service:latest
+        depends_on: 
+            - rabbitmq
+        networks:
+            - jsp-net
+        #tty: true
 
     rabbitmq:
         image: rabbitmq:3-management
         ports: 
             - 5672:5672
             - 15672:15672
+        networks:
+            - jsp-net
+
+networks:
+    jsp-net:
+        driver: bridge
 
    
 
