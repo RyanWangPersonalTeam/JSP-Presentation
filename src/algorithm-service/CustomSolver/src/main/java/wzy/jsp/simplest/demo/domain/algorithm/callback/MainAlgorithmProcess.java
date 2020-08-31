@@ -66,7 +66,11 @@ public class MainAlgorithmProcess implements IHandleNewCalculateRequest {
                 response.SolvedSolution=solvedSolution;
             }
         }
-        amqpHandler.SendCalculateResponse(response);
+        for(int i=0;i<3;i++){
+            amqpHandler.SendCalculateResponse(response);
+            Thread.sleep(200);
+        }
+
 
         amqpHandler.SendServiceStatus(false);
         amqpHandler.setExit(true);

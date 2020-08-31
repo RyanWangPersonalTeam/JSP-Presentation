@@ -95,10 +95,10 @@ under the License.
       <id>bosch-proxy-http</id>
       <active>true</active>
       <protocol>http</protocol>
-      <username>****</username>
-      <password>****</password>
-      <host>****</host>
-      <port>8080</port>
+      <username>***</username>
+      <password>***</password>
+      <host>***</host>
+      <port>***</port>
       <nonProxyHosts></nonProxyHosts>
     </proxy>
 	
@@ -106,10 +106,10 @@ under the License.
       <id>bosch-proxy-https</id>
       <active>true</active>
       <protocol>https</protocol>
-      <username>****</username>
-      <password>****</password>
-      <host>****</host>
-      <port>8080</port>
+      <username>***</username>
+      <password>***</password>
+      <host>***</host>
+      <port>***</port>
       <nonProxyHosts></nonProxyHosts>
     </proxy>
     

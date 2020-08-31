@@ -4,8 +4,8 @@
 ###################################
 FROM node:12.16.1 
 #proxy configuration if necessary
-ENV http_proxy=*****
-ENV https_proxy=*****
+ENV http_proxy=***
+ENV https_proxy=***
 RUN mkdir my-angular
 WORKDIR /my-angular
 
@@ -17,4 +17,4 @@ RUN npm install -g @angular/cli@8.3.25
 
 COPY . /my-angular
 
-CMD ng build --prod
+RUN ng build --prod

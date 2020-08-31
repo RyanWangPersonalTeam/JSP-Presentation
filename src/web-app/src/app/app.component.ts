@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 enum CurrentStatus {
   None,
   NewDataCreated,
+  ClickCalculateButton,
   AlgorithmServiceIsBusyNow,
   Calculating,
   CalculateComplete
@@ -40,6 +41,13 @@ export class AppComponent implements OnInit{
   algorithmNames:string[]=[];
 
   currentStatus:CurrentStatus;
+
+  public timeBegan = null
+  public timeStopped:any = null
+  public timer = null
+  public blankTime = "00:00.000"
+  public time = "00:00.000"
+
 
   constructor(private solutionChartConvertService:SolutionChartConvertService,
     private http:HttpClient,
@@ -183,6 +191,7 @@ export class AppComponent implements OnInit{
       request.representType=RepresentType[this.demoSetting.representType];
       request.algorithmType=AlgorithmType[this.demoSetting.algorithmType];
       this.testHub.send("NewCalculateRequest",request);
+      this.setCurrentStatus(CurrentStatus.ClickCalculateButton);
   }
 
   setCurrentStatus(status:CurrentStatus){
@@ -204,12 +213,22 @@ export class AppComponent implements OnInit{
       this.disabledSetting=false;
     }
 
+    if(this.currentStatus==CurrentStatus.ClickCalculateButton){
+      this.disableGenerateTestData=true;
+      this.disabledCalculate=true;
+      this.currentStatusStr='';
+      this.disabledSpinner=true;
+      this.disabledSetting=true;
+      this.timeCostStart();
+    }
+
     if(this.currentStatus==CurrentStatus.Calculating){
       this.disableGenerateTestData=true;
       this.disabledCalculate=true;
       this.currentStatusStr='Calculating...';
       this.disabledSpinner=true;
       this.disabledSetting=true;
+      
     }
 
     if(this.currentStatus==CurrentStatus.AlgorithmServiceIsBusyNow){
@@ -218,6 +237,7 @@ export class AppComponent implements OnInit{
       this.currentStatusStr='';
       this.disabledSpinner=false;
       this.disabledSetting=false;
+      this.timeCostReset();
     }
 
     if(this.currentStatus==CurrentStatus.CalculateComplete){
@@ -226,6 +246,7 @@ export class AppComponent implements OnInit{
       this.currentStatusStr='Complete calculation!';
       this.disabledSpinner=false;
       this.disabledSetting=false;
+      this.timeCostStop();
     }
   }
 
@@ -246,4 +267,43 @@ export class AppComponent implements OnInit{
     });
   }
 
+  timeCostStart() { 
+    this.timeCostReset();
+    this.timeBegan = new Date(); 
+    this.timer = setInterval(this.clockRunning.bind(this), 10); 
+  }
+
+  timeCostStop() {
+    clearInterval(this.timer);
+ }
+
+ timeCostReset() {
+    clearInterval(this.timer);
+    this.time = this.blankTime;
+  }
+
+  zeroPrefix(num, digit) {
+    let zero = '';
+    for(let i = 0; i < digit; i++) {
+      zero += '0';
+    }
+    return (zero + num).slice(-digit);
+  }
+
+  clockRunning(){
+    let currentTime:any = new Date()
+    let timeElapsed:any = new Date(currentTime - this.timeBegan)
+    let hour = timeElapsed.getUTCHours()
+    let min = timeElapsed.getUTCMinutes()
+    let sec = timeElapsed.getUTCSeconds()
+    let ms = timeElapsed.getUTCMilliseconds();    
+    this.time =this.zeroPrefix(hour, 2) + ":" +
+                this.zeroPrefix(min, 2) + ":" +
+                this.zeroPrefix(sec, 2) + "." +
+                this.zeroPrefix(ms, 3);
+  };
+
 }
+
+
+

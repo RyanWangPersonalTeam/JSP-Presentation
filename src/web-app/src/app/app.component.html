@@ -30,6 +30,9 @@
   <div class="table-cell-1">
       Algorithm : {{algorithmNames[demoSetting.algorithmType]}}
   </div>
+  <div class="table-cell-1">
+    Cost time : {{time}}
+  </div>
   <div style="right: 20px;
               bottom: auto;
               top: 20px;
@@ -45,5 +48,6 @@
   <mat-card>
   <gstc [config]="config" (onState)="onState($event)"></gstc>
 </mat-card>
+
 
 
