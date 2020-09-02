@@ -17,4 +17,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends gss-ntlmssp
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
 WORKDIR /my-api/out
-CMD dotnet WebAPI.dll --urls "http://0.0.0.0:5000;https://0.0.0.0:5001"
+CMD dotnet WebAPI.dll --urls "http://*:5000;https://*:5001" 

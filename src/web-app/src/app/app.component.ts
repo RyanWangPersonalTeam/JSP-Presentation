@@ -166,6 +166,7 @@ export class AppComponent implements OnInit{
   }
 
   onSampleData(){
+    
     this.http.get(this.baseUrl+"/api/Solve/GetRandomTestData?jobNum="+this.demoSetting.jobNum+"&taskNum="+this.demoSetting.taskNumPerJob)
       .subscribe((data:object) => {
         this.currentSolution=data as Solution;
