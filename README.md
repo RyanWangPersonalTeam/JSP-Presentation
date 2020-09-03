@@ -15,7 +15,11 @@ I prepared install scripts to build and deploy the whole system from source code
 ## Install in windows
 Make sure you have installed Docker Desktop and Docker-Compose :
 ![install1](doc/install1.png)
+
 ![install2](doc/install2.png)
+
 Download the unzip the source code, navigate to 'src' in command line
+
 ![install3](doc/install3.png)
+
 The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment need proxy, if so, you need  
