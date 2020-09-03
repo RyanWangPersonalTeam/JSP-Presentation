@@ -105,7 +105,7 @@ under the License.
 	<proxy>
       <id>bosch-proxy-https</id>
       <active>true</active>
-      <protocol>http</protocol>
+      <protocol>https</protocol>
       <username>***</username>
       <password>***</password>
       <host>***</host>
