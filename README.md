@@ -9,3 +9,15 @@ This demo is web system consist of several modules: front-end UI, back-end API, 
 <p align="center">
   <img src="doc/introduce.png" />
 </p>
+
+# Quickly deploy
+I prepared install scripts to build and deploy the whole system from source code, if install successfully, open browser and navigate to http://localhost:9902 , you should see the demo.Because all modules are deployed into containers, Docker and Docker-Compose are prerequisites.
+## Install in windows
+Make sure you have installed Docker Desktop and Docker-Compose :
+<p align="center">
+  <img src="doc/install1.png" />
+</p>
+<p align="center">
+  <img src="doc/install2.png" />
+</p>
+Download the unzip the source code, navigate to 'src' in command line
