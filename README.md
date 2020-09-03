@@ -14,14 +14,23 @@ This demo is web system consist of several modules: front-end UI, back-end API, 
 I prepared install scripts to build and deploy the whole system from source code, if install successfully, open browser and navigate to http://localhost:9902 , you should see the demo.Because all modules are deployed into containers, Docker and Docker-Compose are prerequisites.
 ## Install in windows
 Make sure you have installed Docker Desktop and Docker-Compose :
-<p align="center">
-  <img src="doc/install1.png" />
-</p>
-<p align="center">
-  <img src="doc/install2.png" />
-</p>
+![install1](doc/install1.png)
+
+![install2](doc/install2.png)
+
 Download the unzip the source code, navigate to 'src' in command line
-<p align="center">
-  <img src="doc/install3.png" />
-</p>
-The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment need proxy, if so, you need  
+
+![install3](doc/install3.png)
+
+The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment need proxy, if so, you need add proxy configuration manually in some files: algorithm-service/CustomSolver/Dockerfile, algorithm-service/CustomSolver/mavensetting.xml, web-app/base.Dockerfile, web-app/prod.Dockerfile, and WebAPI/WebAPI/Dockerfile. For example: 
+
+![install4](doc/install4.png)
+
+Then execute bat file to build and deploy. It costs much time because it contains installing packages, compiling code and building images:
+
+![install5](doc/install5.png)
+
+If deploy successfully, you can see these images and containers in Docker
+![install6](doc/install6.png)
+
+![install7](doc/install7.png)
