@@ -4,4 +4,5 @@ It uses a third pard UI component in GPL license to show schedule results([angul
 ![Demo gif](doc/demo.gif)
 
 # About this project
-It's a personal demo project to display the process and result of solving JSP problem by different representation model or algorithms.I create it out of interest in JSP problem, I was responsible for algorithm module development in a production schedule project before, though I can evaluate one algorithm's or solver's performance by comparing objective score and calculating time, it's hard to watch the whole calculating process intuitively without web UI, and which is 
+It's a personal demo project to display the process and result of solving JSP problem by different representation model or algorithms.I create it out of interest in JSP problem, I was responsible for algorithm module development in a production schedule project before, though I can evaluate one algorithm's or solver's performance by comparing objective score and calculating time, it's hard to watch the whole calculating process intuitively without web UI.So I decide to write a present demo by myself integrated with different algorithms, personally I want to use this demo to learn more about optimization algorithms.
+
