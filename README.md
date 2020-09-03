@@ -21,3 +21,7 @@ Make sure you have installed Docker Desktop and Docker-Compose :
   <img src="doc/install2.png" />
 </p>
 Download the unzip the source code, navigate to 'src' in command line
+<p align="center">
+  <img src="doc/install3.png" />
+</p>
+The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment need proxy, if so, you need  
