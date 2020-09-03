@@ -27,4 +27,8 @@ cd ../../
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 docker-compose up -d --remove-orphans
 
-echo Install completely, open http://localhost:9902/ to test
+IF %ERRORLEVEL% EQU 0 (
+    echo Install completely, open http://localhost:9902/ to test
+) ELSE (
+    echo Install failed
+)
