@@ -67,7 +67,9 @@ export class AppComponent implements OnInit{
               .build();
     this.testHub.on('PushSolutionResponse',(response:CalculateResponse)=>{
       if(response.success==false){
-        alert(response.errorMessage);
+        if(this.currentStatus!=CurrentStatus.AlgorithmServiceIsBusyNow){
+          alert(response.errorMessage);
+        }
         this.setCurrentStatus(CurrentStatus.AlgorithmServiceIsBusyNow);
       }
       else{

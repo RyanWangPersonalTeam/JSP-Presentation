@@ -16,18 +16,18 @@ public class AlgorithmFactory {
         AlgorithmType algorithmType=AlgorithmType.valueOf(calculateRequest.AlgorithmType);
         if(jspRepresentType==JspRepresentType.MixedIntegerModel){
             switch (algorithmType){
-                case NativeSimulatedAnnealing:{
-                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
-                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
-                    DelayTimeRepresentModel delayTimeRepresentModel=variableConverter.getDelayTimeRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
-                    SAAlgorithmWithDelayTimeRepresentModel sa=new SAAlgorithmWithDelayTimeRepresentModel(
-                            new SAParametersWithDelayTimeRepresentModel(delayTimeRepresentModel,calculateRequest.UnsolvedSolution),
-                            variableConverter,
-                            new SendIntermediateSolution(),
-                            amqpHandler);
-                    algorithmCore=sa;
-                }
-                break;
+//                case NativeSimulatedAnnealing:{
+//                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
+//                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
+//                    DelayTimeRepresentModel delayTimeRepresentModel=variableConverter.getDelayTimeRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
+//                    SAAlgorithmWithDelayTimeRepresentModel sa=new SAAlgorithmWithDelayTimeRepresentModel(
+//                            new SAParametersWithDelayTimeRepresentModel(delayTimeRepresentModel,calculateRequest.UnsolvedSolution),
+//                            variableConverter,
+//                            new SendIntermediateSolution(),
+//                            amqpHandler);
+//                    algorithmCore=sa;
+//                }
+//                break;
                 case RandomSequenceHeuristic:{
                     DateTimeConverter dateTimeConverter=new DateTimeConverter();
                     VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
@@ -40,18 +40,18 @@ public class AlgorithmFactory {
                     algorithmCore=sha;
                 }
                 break;
-                case NativeGeneticAlgorithm:{
-                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
-                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
-                    DelayTimeRepresentModel delayTimeRepresentModel=variableConverter.getDelayTimeRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
-                    GAAlgorithmWithDelayTimeRepresentModel ga=new GAAlgorithmWithDelayTimeRepresentModel(
-                            new GAParametersWithDelayTimeRepresentModel(delayTimeRepresentModel,calculateRequest.UnsolvedSolution),
-                            variableConverter,
-                            new SendIntermediateSolution(),
-                            amqpHandler);
-                    algorithmCore=ga;
-                }
-                break;
+//                case NativeGeneticAlgorithm:{
+//                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
+//                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
+//                    DelayTimeRepresentModel delayTimeRepresentModel=variableConverter.getDelayTimeRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
+//                    GAAlgorithmWithDelayTimeRepresentModel ga=new GAAlgorithmWithDelayTimeRepresentModel(
+//                            new GAParametersWithDelayTimeRepresentModel(delayTimeRepresentModel,calculateRequest.UnsolvedSolution),
+//                            variableConverter,
+//                            new SendIntermediateSolution(),
+//                            amqpHandler);
+//                    algorithmCore=ga;
+//                }
+//                break;
                 case GoogleOrToolCpSolver:{
                     OrToolCpSolverWithDelayTimeRepresentModel ot=new OrToolCpSolverWithDelayTimeRepresentModel(
                             calculateRequest.UnsolvedSolution,
