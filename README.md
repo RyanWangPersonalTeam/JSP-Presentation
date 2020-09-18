@@ -22,7 +22,7 @@ Download the unzip the source code, navigate to 'src' in command line
 
 ![install3](doc/install3.png)
 
-The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment need proxy, if so, you need add proxy configuration manually in some files: algorithm-service/CustomSolver/Dockerfile, algorithm-service/CustomSolver/mavensetting.xml, web-app/base.Dockerfile, web-app/prod.Dockerfile, and WebAPI/WebAPI/Dockerfile. For example: 
+The script 'windows.install.bat' is used to deploy system in windows. Before executing, make sure whether your development enviroment needs proxy, if so, you need add proxy configuration manually in some files: algorithm-service/CustomSolver/Dockerfile, algorithm-service/CustomSolver/mavensetting.xml, web-app/base.Dockerfile, web-app/prod.Dockerfile, and WebAPI/WebAPI/Dockerfile. For example: 
 
 ![install4](doc/install4.png)
 
