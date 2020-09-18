@@ -1,4 +1,4 @@
-package wzy.jsp.simplest.demo.domain.ortools.test;
+package wzy.jsp.simplest.demo.domain.ortools;
 
 import com.google.ortools.sat.IntVar;
 

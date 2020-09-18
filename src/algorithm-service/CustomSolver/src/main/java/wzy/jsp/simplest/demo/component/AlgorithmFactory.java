@@ -14,7 +14,7 @@ public class AlgorithmFactory {
         IAlgorithmCore algorithmCore=null;
         JspRepresentType jspRepresentType=JspRepresentType.valueOf(calculateRequest.RepresentType);
         AlgorithmType algorithmType=AlgorithmType.valueOf(calculateRequest.AlgorithmType);
-        if(jspRepresentType==JspRepresentType.MixedIntegerModel){
+        if(jspRepresentType==JspRepresentType.DirectFormulation){
             switch (algorithmType){
 //                case NativeSimulatedAnnealing:{
 //                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
@@ -69,6 +69,19 @@ public class AlgorithmFactory {
                             new SendIntermediateSolution()
                     );
                     algorithmCore=op;
+                }
+                break;
+            }
+        }
+        else if(jspRepresentType==JspRepresentType.DisjunctiveGraph){
+            switch (algorithmType){
+                case GoogleOrToolCpSolver:{
+                    OrToolCpSolverWithDisjunctiveGraphModel ot=new OrToolCpSolverWithDisjunctiveGraphModel(
+                            calculateRequest.UnsolvedSolution,
+                            new SendIntermediateSolution(),
+                            amqpHandler
+                    );
+                    algorithmCore=ot;
                 }
                 break;
             }

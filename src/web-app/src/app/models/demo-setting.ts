@@ -1,5 +1,5 @@
 export enum RepresentType{
-    MixedIntegerModel,
+    DirectFormulation,
     DisjunctiveGraph,
 }
 

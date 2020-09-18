@@ -87,7 +87,7 @@ under the License.
    | Unless otherwise specified (by system property or command-line switch), the first proxy
    | specification in this list marked as active will be used.
    |-->
-   <!-- <proxies>
+    <!-- <proxies>
     <!-- proxy
      | Specification for one proxy, to be used in connecting to the network.
      |-->
@@ -113,7 +113,7 @@ under the License.
       <nonProxyHosts></nonProxyHosts>
     </proxy>
     
-  </proxies>  -->
+  </proxies> -->
 
   <!-- servers
    | This is a list of authentication profiles, keyed by the server-id used within the system.

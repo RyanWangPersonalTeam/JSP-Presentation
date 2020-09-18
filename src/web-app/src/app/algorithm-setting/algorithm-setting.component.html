@@ -28,6 +28,7 @@
               <mat-radio-group [(ngModel)]="selectedRepresent" (change)="representChange($event)">
                   <mat-radio-button *ngFor="let rt of representTypes" [value]="rt.key" [disabled]="rt.disabled" style="padding-left: 50px;">
                       {{rt.value}}
+                      <a [href]="rt.url" target="_blank">(Document)</a>
                   </mat-radio-button>
               </mat-radio-group>
           </section>
