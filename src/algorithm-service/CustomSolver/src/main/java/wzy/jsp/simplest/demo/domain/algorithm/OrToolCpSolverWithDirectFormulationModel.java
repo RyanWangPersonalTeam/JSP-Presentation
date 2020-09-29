@@ -16,14 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrToolCpSolverWithDelayTimeRepresentModel implements IAlgorithmCore {
+public class OrToolCpSolverWithDirectFormulationModel implements IAlgorithmCore {
     private Solution unsolvedSolution;
     private AMQPHandler amqpHandler;
     private IntermediateSolutionCallback intermediateSolutionCallback;
 
 
 
-    public OrToolCpSolverWithDelayTimeRepresentModel(Solution unsolvedSolution,IntermediateSolutionCallback intermediateSolutionCallback,AMQPHandler amqpHandler){
+    public OrToolCpSolverWithDirectFormulationModel(Solution unsolvedSolution, IntermediateSolutionCallback intermediateSolutionCallback, AMQPHandler amqpHandler){
         this.unsolvedSolution=unsolvedSolution;
         this.amqpHandler=amqpHandler;
         this.intermediateSolutionCallback=intermediateSolutionCallback;
@@ -134,7 +134,7 @@ public class OrToolCpSolverWithDelayTimeRepresentModel implements IAlgorithmCore
             this.amqpHandler=amqpHandler;
             this.intermediateSolutionCallback=intermediateSolutionCallback;
 
-            this.logger= LoggerFactory.getLogger(OrToolCpSolverWithDelayTimeRepresentModel.class);
+            this.logger= LoggerFactory.getLogger(OrToolCpSolverWithDirectFormulationModel.class);
         }
 
         @Override

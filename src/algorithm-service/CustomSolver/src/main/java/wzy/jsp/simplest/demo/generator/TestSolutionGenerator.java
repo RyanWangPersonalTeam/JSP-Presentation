@@ -106,12 +106,14 @@ public class TestSolutionGenerator {
         task00.Name="Task_0_0";
         task00.Duration=3*60;
         task00.StartTime="2020-07-20 00:00:00";
+        task00.EndTime="2020-07-20 03:00:00";
         Task task01=new Task();
         task01.Id=UUID.randomUUID().toString();
         task01.Machine="M2";
         task01.Name="Task_0_1";
         task01.Duration=2*60;
-        task01.StartTime="2020-07-20 02:00:00";
+        task01.StartTime="2020-07-20 03:00:00";
+        task01.EndTime="2020-07-20 05:00:00";
         job0.Tasks.add(task00);
         job0.Tasks.add(task01);
 
@@ -124,7 +126,8 @@ public class TestSolutionGenerator {
         task10.Machine="M1";
         task10.Name="Task_1_0";
         task10.Duration=2*60;
-        task10.StartTime="2020-07-20 00:10:00";
+        task10.StartTime="2020-07-20 03:00:00";
+        task10.EndTime="2020-07-20 05:00:00";
         job1.Tasks.add(task10);
 
         solution.Jobs.add(job0);

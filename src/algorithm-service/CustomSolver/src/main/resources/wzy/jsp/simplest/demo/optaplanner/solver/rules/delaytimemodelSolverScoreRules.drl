@@ -1,14 +1,14 @@
 package wzy.jsp.simplest.demo.optaplanner.solver.rules;
 
 import org.optaplanner.core.api.score.buildin.bendable.BendableScoreHolder;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.ExecutionMode;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.OptaJob;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.ResourceRequirement;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.OptaTask;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.score.drools.RenewableResourceUsedTimePoint;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Allocation;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.ExecutionMode;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.OptaJob;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.ResourceRequirement;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Schedule;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.OptaTask;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource.Resource;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.score.drools.RenewableResourceUsedTimePoint;
 
 global BendableScoreHolder scoreHolder;
 

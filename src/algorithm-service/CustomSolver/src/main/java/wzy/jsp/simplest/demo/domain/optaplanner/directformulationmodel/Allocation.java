@@ -1,4 +1,4 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.valuerange.CountableValueRange;
@@ -7,9 +7,9 @@ import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.common.AbstractPersistable;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.solver.DelayStrengthComparator;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.solver.PredecessorsEndTimeUpdatingVariableListener;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.common.AbstractPersistable;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.solver.DelayStrengthComparator;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.solver.PredecessorsEndTimeUpdatingVariableListener;
 
 import java.util.List;
 import java.util.UUID;

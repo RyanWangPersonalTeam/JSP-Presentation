@@ -1,12 +1,12 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel;
 
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.score.buildin.bendable.BendableScore;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.common.AbstractPersistable;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.common.AbstractPersistable;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource.Resource;
 
 import java.util.*;
 

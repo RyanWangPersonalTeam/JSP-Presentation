@@ -1,6 +1,6 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource;
 
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.OptaJob;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.OptaJob;
 
 import java.util.UUID;
 

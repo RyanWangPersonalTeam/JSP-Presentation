@@ -4,8 +4,8 @@
 ####################################################
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 #proxy configuration if necessary
-#ENV http_proxy=****
-#ENV https_proxy=****
+#ENV http_proxy=***
+#ENV https_proxy=***
 #certificate configuration 
 ENV ASPNETCORE_URLS=https://+;http://+
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password="123456"

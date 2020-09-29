@@ -3,8 +3,8 @@
     <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
     <!--<moveThreadCount>AUTO</moveThreadCount>--><!-- To solve faster by saturating multiple CPU cores -->
 
-    <solutionClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule</solutionClass>
-    <entityClass>wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation</entityClass>
+    <solutionClass>wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Schedule</solutionClass>
+    <entityClass>wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Allocation</entityClass>
     <environmentMode>NON_REPRODUCIBLE</environmentMode>
 <!--    <moveThreadCount>AUTO</moveThreadCount>-->
     <scoreDirectorFactory>

@@ -1,14 +1,13 @@
 package wzy.jsp.simplest.demo.domain.algorithm.represent;
 
-import wzy.jsp.simplest.demo.domain.algorithm.represent.DelayTimeRepresentModel;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 
 
 /**
  *
  */
-public class SAParametersWithDelayTimeRepresentModel {
-    private DelayTimeRepresentModel delayTimeRepresentModel;
+public class SAParametersWithDirectFormulationModel {
+    private DirectFormulationModel directFormulationModel;
     //Penalty value for hard constraints violating
     private int I=1000;
     //Loop num in annealing
@@ -26,14 +25,14 @@ public class SAParametersWithDelayTimeRepresentModel {
     private Solution solution;
 
 
-    public SAParametersWithDelayTimeRepresentModel(DelayTimeRepresentModel delayTimeRepresentModel, Solution solution){
-        this.delayTimeRepresentModel=delayTimeRepresentModel;
+    public SAParametersWithDirectFormulationModel(DirectFormulationModel directFormulationModel, Solution solution){
+        this.directFormulationModel = directFormulationModel;
         this.solution=solution;
     }
 
-    public SAParametersWithDelayTimeRepresentModel(DelayTimeRepresentModel delayTimeRepresentModel, Solution solution,
-                                                   int I,int loopN,double minTemperature,double temperature0, double a){
-        this.delayTimeRepresentModel=delayTimeRepresentModel;
+    public SAParametersWithDirectFormulationModel(DirectFormulationModel directFormulationModel, Solution solution,
+                                                  int I, int loopN, double minTemperature, double temperature0, double a){
+        this.directFormulationModel = directFormulationModel;
         this.solution=solution;
         this.I=I;
         this.loopN=loopN;
@@ -42,8 +41,8 @@ public class SAParametersWithDelayTimeRepresentModel {
         this.a=a;
     }
 
-    public DelayTimeRepresentModel getDelayTimeRepresentModel() {
-        return delayTimeRepresentModel;
+    public DirectFormulationModel getDirectFormulationModel() {
+        return directFormulationModel;
     }
 
     public int getI() {

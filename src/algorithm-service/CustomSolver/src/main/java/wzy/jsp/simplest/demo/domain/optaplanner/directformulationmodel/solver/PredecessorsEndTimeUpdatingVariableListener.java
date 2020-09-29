@@ -1,8 +1,8 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.solver;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.solver;
 
 import org.optaplanner.core.impl.domain.variable.listener.VariableListener;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Allocation;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Allocation;
 
 import java.util.ArrayDeque;
 import java.util.Objects;

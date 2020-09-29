@@ -20,6 +20,7 @@ import { AlgorithmSettingComponent } from './algorithm-setting/algorithm-setting
 import { HomeComponent } from './home/home.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { DirectFormulationIntroComponent } from './doc/direct-formulation-intro/direct-formulation-intro.component';
+import { DisjunctiveGraphIntroComponent } from './doc/disjunctive-graph-intro/disjunctive-graph-intro.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DirectFormulationIntroComponent } from './doc/direct-formulation-intro/
     AlgorithmSettingComponent,
     HomeComponent,
     DirectFormulationIntroComponent,
+    DisjunctiveGraphIntroComponent,
   ],
   imports: [
     BrowserModule,

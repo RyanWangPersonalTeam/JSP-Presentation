@@ -7,20 +7,17 @@ import org.optaplanner.core.config.solver.SolverManagerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wzy.jsp.simplest.demo.common.IAlgorithmCore;
-import wzy.jsp.simplest.demo.common.IMetaHeuristicAlgorithm;
 import wzy.jsp.simplest.demo.common.IntermediateSolutionCallback;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.component.VariableConverter;
-import wzy.jsp.simplest.demo.domain.algorithm.callback.SolutionPrintHelper;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.Schedule;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.Schedule;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
-public class OptaPlannerSolverWithDelayTimeRepresentModel implements  IAlgorithmCore {
+public class OptaPlannerSolverWithDirectFormulationModel implements  IAlgorithmCore {
     private AMQPHandler amqpHandler;
     private VariableConverter variableConverter;
     private Solution originalUnsolvedSolution;
@@ -31,28 +28,28 @@ public class OptaPlannerSolverWithDelayTimeRepresentModel implements  IAlgorithm
     private Logger logger;
     private IntermediateSolutionCallback intermediateSolutionCallback;
 
-    public OptaPlannerSolverWithDelayTimeRepresentModel(AMQPHandler amqpHandler,
-                                                        VariableConverter variableConverter,
-                                                        Solution originalUnsolvedSolution,
-                                                        IntermediateSolutionCallback intermediateSolutionCallback){
+    public OptaPlannerSolverWithDirectFormulationModel(AMQPHandler amqpHandler,
+                                                       VariableConverter variableConverter,
+                                                       Solution originalUnsolvedSolution,
+                                                       IntermediateSolutionCallback intermediateSolutionCallback){
         this.amqpHandler=amqpHandler;
         this.variableConverter=variableConverter;
         this.originalUnsolvedSolution=originalUnsolvedSolution;
         this.intermediateSolutionCallback=intermediateSolutionCallback;
-        this.logger= LoggerFactory.getLogger(OptaPlannerSolverWithDelayTimeRepresentModel.class);
+        this.logger= LoggerFactory.getLogger(OptaPlannerSolverWithDirectFormulationModel.class);
 
     }
 
-    public OptaPlannerSolverWithDelayTimeRepresentModel(AMQPHandler amqpHandler,
-                                                        VariableConverter variableConverter,
-                                                        Solution originalUnsolvedSolution,
-                                                        IntermediateSolutionCallback intermediateSolutionCallback,
-                                                        String optaPlannerSolverConfigPath){
+    public OptaPlannerSolverWithDirectFormulationModel(AMQPHandler amqpHandler,
+                                                       VariableConverter variableConverter,
+                                                       Solution originalUnsolvedSolution,
+                                                       IntermediateSolutionCallback intermediateSolutionCallback,
+                                                       String optaPlannerSolverConfigPath){
         this.amqpHandler=amqpHandler;
         this.variableConverter=variableConverter;
         this.originalUnsolvedSolution=originalUnsolvedSolution;
         this.intermediateSolutionCallback=intermediateSolutionCallback;
-        this.logger= LoggerFactory.getLogger(OptaPlannerSolverWithDelayTimeRepresentModel.class);
+        this.logger= LoggerFactory.getLogger(OptaPlannerSolverWithDirectFormulationModel.class);
         this.optaPlannerSolverConfigPath=optaPlannerSolverConfigPath;
     }
 

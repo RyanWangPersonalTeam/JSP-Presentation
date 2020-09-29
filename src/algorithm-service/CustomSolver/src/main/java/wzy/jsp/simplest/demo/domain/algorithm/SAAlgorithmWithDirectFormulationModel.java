@@ -7,7 +7,7 @@ import wzy.jsp.simplest.demo.common.IMetaHeuristicAlgorithm;
 import wzy.jsp.simplest.demo.common.IntermediateSolutionCallback;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.component.VariableConverter;
-import wzy.jsp.simplest.demo.domain.algorithm.represent.SAParametersWithDelayTimeRepresentModel;
+import wzy.jsp.simplest.demo.domain.algorithm.represent.SAParametersWithDirectFormulationModel;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import java.util.Random;
  * SA Algorithm using delay time represent model
  * It will calculate the best es value
  */
-public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlgorithm, IAlgorithmCore {
-    private SAParametersWithDelayTimeRepresentModel saParameters;
+public class SAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgorithm, IAlgorithmCore {
+    private SAParametersWithDirectFormulationModel saParameters;
     private VariableConverter variableConverter;
     private AMQPHandler amqpHandler;
     private double currentT;//current Temperature
@@ -32,16 +32,16 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
     private Logger logger;
 
 
-    public SAAlgorithmWithDelayTimeRepresentModel(SAParametersWithDelayTimeRepresentModel saParameters,
-                                                  VariableConverter variableConverter,
-                                                  IntermediateSolutionCallback intermediateSolutionCallback,
-                                                  AMQPHandler amqpHandler){
+    public SAAlgorithmWithDirectFormulationModel(SAParametersWithDirectFormulationModel saParameters,
+                                                 VariableConverter variableConverter,
+                                                 IntermediateSolutionCallback intermediateSolutionCallback,
+                                                 AMQPHandler amqpHandler){
         this.saParameters=saParameters;
         this.variableConverter=variableConverter;
         this.intermediateSolutionCallback=intermediateSolutionCallback;
         this.amqpHandler=amqpHandler;
 
-        this.logger= LoggerFactory.getLogger(SAAlgorithmWithDelayTimeRepresentModel.class);
+        this.logger= LoggerFactory.getLogger(SAAlgorithmWithDirectFormulationModel.class);
     }
 
     public Solution Calculate(boolean initialized) throws Exception {
@@ -51,20 +51,20 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
 
         //If not initialized, using Heuristic Algorithm to generate a init solution
         if(!initialized){
-            SimpleHeuristicAlgorithmWithDelayTimeRepresentModel simpleAlgorithm=new SimpleHeuristicAlgorithmWithDelayTimeRepresentModel(
-                    this.saParameters.getDelayTimeRepresentModel(),
+            SimpleHeuristicAlgorithmWithDirectFormulationModel simpleAlgorithm=new SimpleHeuristicAlgorithmWithDirectFormulationModel(
+                    this.saParameters.getDirectFormulationModel(),
                     this.variableConverter,
                     this.saParameters.getSolution()
             );
-            this.saParameters.getDelayTimeRepresentModel().es=simpleAlgorithm.Calculate();
+            this.saParameters.getDirectFormulationModel().es=simpleAlgorithm.Calculate();
         }
         this.currentEvalValue=this.getEvaluationValue();
         this.currentBestScore=this.currentEvalValue;
         this.currentBestES=new ArrayList<>();
-        for(int jobIndex=0;jobIndex<this.saParameters.getDelayTimeRepresentModel().es.size();jobIndex++){
+        for(int jobIndex = 0; jobIndex<this.saParameters.getDirectFormulationModel().es.size(); jobIndex++){
             List<Integer> es=new ArrayList<>();
-            for(int taskIndex=0;taskIndex<this.saParameters.getDelayTimeRepresentModel().es.get(jobIndex).size();taskIndex++){
-                es.add(this.saParameters.getDelayTimeRepresentModel().es.get(jobIndex).get(taskIndex));
+            for(int taskIndex = 0; taskIndex<this.saParameters.getDirectFormulationModel().es.get(jobIndex).size(); taskIndex++){
+                es.add(this.saParameters.getDirectFormulationModel().es.get(jobIndex).get(taskIndex));
             }
             this.currentBestES.add(es);
         }
@@ -93,9 +93,9 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
             this.currentT=this.currentT*this.saParameters.getA();
         }
 
-        this.saParameters.getDelayTimeRepresentModel().es=this.currentBestES;
-        Solution solvedSolution=this.variableConverter.getScheduledSolutionFromDelayTimeRepresentModel(
-                this.saParameters.getDelayTimeRepresentModel(), this.saParameters.getSolution()
+        this.saParameters.getDirectFormulationModel().es=this.currentBestES;
+        Solution solvedSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(
+                this.saParameters.getDirectFormulationModel(), this.saParameters.getSolution()
         );
         solvedSolution.FinalResult=true;
         return solvedSolution;
@@ -103,7 +103,7 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
 
     //Evaluation function
     public int getEvaluationValue(){
-        List<List<Integer>> startTimes=this.variableConverter.getStartTimesFromEs(this.saParameters.getDelayTimeRepresentModel());
+        List<List<Integer>> startTimes=this.variableConverter.getStartTimesFromEs(this.saParameters.getDirectFormulationModel());
         int maxEndTime=this.getBasicEvaluationValue(startTimes);
         int hardConstraintValue=this.checkHardConstraint(startTimes,maxEndTime);
         return maxEndTime+hardConstraintValue;
@@ -114,7 +114,7 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         int max=0;
         for(int i=0;i<startTimes.size();i++){
             int lastIndex=startTimes.get(i).size()-1;
-            int temp=startTimes.get(i).get(lastIndex)+this.saParameters.getDelayTimeRepresentModel().durations.get(i).get(lastIndex);
+            int temp=startTimes.get(i).get(lastIndex)+this.saParameters.getDirectFormulationModel().durations.get(i).get(lastIndex);
             if(temp>max){
                 max=temp;
             }
@@ -128,7 +128,7 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         //Check every time point
         for(int t=0;t<=maxEndTime/*this.saParameters.getDelayTimeRepresentModel().timeUpperLimit*/;t++){//replace 'timeUpperLimit' into 'maxEndTime' to improve performance
             //Check the occupy status of every machine this time point
-            for(int k=0;k<this.saParameters.getDelayTimeRepresentModel().machines.length;k++){
+            for(int k = 0; k<this.saParameters.getDirectFormulationModel().machines.length; k++){
                 int occupySum=0;
                 for(int i=0;i<startTimes.size();i++){
                     for(int j=0;j<startTimes.get(i).size();j++){
@@ -136,8 +136,8 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
                             continue;
                         }
                         int startTime=startTimes.get(i).get(j);
-                        int duration=this.saParameters.getDelayTimeRepresentModel().durations.get(i).get(j);
-                        int occupyValueThisMachine=this.saParameters.getDelayTimeRepresentModel().occupies.get(i).get(j)[k];
+                        int duration=this.saParameters.getDirectFormulationModel().durations.get(i).get(j);
+                        int occupyValueThisMachine=this.saParameters.getDirectFormulationModel().occupies.get(i).get(j)[k];
                         if(startTime<=t && startTime+duration>t){
                             occupySum+=occupyValueThisMachine;
                         }
@@ -157,12 +157,12 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
     private NeighborhoodDecisionVariableRecord getNeighborhoodDecisionVariables(){
         Random r = new Random();
         //Select a task randomly
-        int selectJobIndex=r.nextInt(this.saParameters.getDelayTimeRepresentModel().es.size());
-        int selectTaskIndex=r.nextInt(this.saParameters.getDelayTimeRepresentModel().es.get(selectJobIndex).size()-2)+1;//注意不能生成为首末两个虚拟task索引
+        int selectJobIndex=r.nextInt(this.saParameters.getDirectFormulationModel().es.size());
+        int selectTaskIndex=r.nextInt(this.saParameters.getDirectFormulationModel().es.get(selectJobIndex).size()-2)+1;//注意不能生成为首末两个虚拟task索引
         //Change the decision variable of this task
-        int previousValue=this.saParameters.getDelayTimeRepresentModel().es.get(selectJobIndex).get(selectTaskIndex);
-        int newEValue=this.getLinnearRandomNumber(this.saParameters.getDelayTimeRepresentModel().decisionUpperLimit+1);
-        this.saParameters.getDelayTimeRepresentModel().es.get(selectJobIndex).set(selectTaskIndex,newEValue);
+        int previousValue=this.saParameters.getDirectFormulationModel().es.get(selectJobIndex).get(selectTaskIndex);
+        int newEValue=this.getLinnearRandomNumber(this.saParameters.getDirectFormulationModel().decisionUpperLimit+1);
+        this.saParameters.getDirectFormulationModel().es.get(selectJobIndex).set(selectTaskIndex,newEValue);
 
         return new NeighborhoodDecisionVariableRecord(selectJobIndex,selectTaskIndex,previousValue,newEValue);
     }
@@ -199,7 +199,7 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
             }
             else{
                 //If not accept, need roll back
-                this.saParameters.getDelayTimeRepresentModel().es
+                this.saParameters.getDirectFormulationModel().es
                         .get(record.getJobIndex())
                         .set(record.getTaskIndex(),record.previousValue);
                 this.currentEvalValue=F_current;
@@ -210,10 +210,10 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         if(this.currentBestES==null || this.currentBestScore>Math.min(F_current,F_new)){
             this.currentBestScore=Math.min(F_current,F_new);
             this.currentBestES=new ArrayList<>();
-            for(int jobIndex=0;jobIndex<this.saParameters.getDelayTimeRepresentModel().es.size();jobIndex++){
+            for(int jobIndex = 0; jobIndex<this.saParameters.getDirectFormulationModel().es.size(); jobIndex++){
                 List<Integer> es=new ArrayList<>();
-                for(int taskIndex=0;taskIndex<this.saParameters.getDelayTimeRepresentModel().es.get(jobIndex).size();taskIndex++){
-                    es.add(this.saParameters.getDelayTimeRepresentModel().es.get(jobIndex).get(taskIndex));
+                for(int taskIndex = 0; taskIndex<this.saParameters.getDirectFormulationModel().es.get(jobIndex).size(); taskIndex++){
+                    es.add(this.saParameters.getDirectFormulationModel().es.get(jobIndex).get(taskIndex));
                 }
                 this.currentBestES.add(es);
             }
@@ -245,7 +245,7 @@ public class SAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
     public void HandleIntermediateSolution(Solution solution) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.saParameters.getSolution().FinalResult=false;
-            Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDelayTimeRepresentModel(this.saParameters.getDelayTimeRepresentModel(),this.saParameters.getSolution());
+            Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(this.saParameters.getDirectFormulationModel(),this.saParameters.getSolution());
             intermediateSolution.FinalResult=false;
             this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
         }

@@ -227,7 +227,7 @@ public class OrToolCpSolverWithDisjunctiveGraphModel implements IAlgorithmCore {
             this.amqpHandler=amqpHandler;
             this.intermediateSolutionCallback=intermediateSolutionCallback;
 
-            this.logger= LoggerFactory.getLogger(OrToolCpSolverWithDelayTimeRepresentModel.class);
+            this.logger= LoggerFactory.getLogger(OrToolCpSolverWithDirectFormulationModel.class);
         }
 
         @Override

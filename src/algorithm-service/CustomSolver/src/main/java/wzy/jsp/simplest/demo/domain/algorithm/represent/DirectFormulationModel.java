@@ -7,7 +7,7 @@ import java.util.List;
  * variables are delay times of each task. It's simple to understand and encode or decode in algorithms,
  * but inefficiency obviously
  */
-public class DelayTimeRepresentModel {
+public class DirectFormulationModel {
     //Decision variables
     //es[i][j] means the delay time of task[i][j] to start after end time of task[i][j-1]
     //i=0,...,N-1, N is the number of job

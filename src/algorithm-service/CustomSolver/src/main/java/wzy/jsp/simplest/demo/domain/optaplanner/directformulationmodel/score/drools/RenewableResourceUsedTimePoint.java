@@ -1,8 +1,8 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.score.drools;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.score.drools;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource.Resource;
 
 import java.io.Serializable;
 

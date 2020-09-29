@@ -1,6 +1,6 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel;
 
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.common.AbstractPersistable;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.common.AbstractPersistable;
 
 import java.util.List;
 import java.util.UUID;

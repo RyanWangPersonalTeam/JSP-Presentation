@@ -4,9 +4,11 @@ import com.google.ortools.sat.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wzy.jsp.simplest.demo.component.DateTimeConverter;
+import wzy.jsp.simplest.demo.component.VariableConverter;
 import wzy.jsp.simplest.demo.domain.algorithm.callback.MainAlgorithmProcess;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.domain.algorithm.callback.SolutionPrintHelper;
+import wzy.jsp.simplest.demo.domain.algorithm.represent.DisjunctiveGraphModel;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 import wzy.jsp.simplest.demo.domain.communication.Task;
 import wzy.jsp.simplest.demo.domain.ortools.DisjunctiveBinaryVariable;
@@ -54,6 +56,15 @@ public class App
                 break;
             }
         }
+
+//        VariableConverter variableConverter=new VariableConverter(new DateTimeConverter());
+//        Solution testSolution=new TestSolutionGenerator().GenerateTestSolution2();
+//        SolutionPrintHelper.printScheduleSolution(testSolution);
+//        DisjunctiveGraphModel disjunctiveGraphModel=variableConverter.getDisjunctiveGraphFromSolution(testSolution,true);
+//
+//        Solution solvedSolution=variableConverter.getSolutionFromDisjunctiveGraph(testSolution,disjunctiveGraphModel);
+//        SolutionPrintHelper.printScheduleSolution(solvedSolution);
+
     }
 
 

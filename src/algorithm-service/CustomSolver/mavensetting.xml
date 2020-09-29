@@ -95,9 +95,9 @@ under the License.
       <id>bosch-proxy-http</id>
       <active>true</active>
       <protocol>http</protocol>
-      <username>****</username>
-      <password>****</password>
-      <host>****</host>
+      <username>***</username>
+      <password>***</password>
+      <host>***</host>
       <port>8080</port>
       <nonProxyHosts></nonProxyHosts>
     </proxy>
@@ -106,14 +106,14 @@ under the License.
       <id>bosch-proxy-https</id>
       <active>true</active>
       <protocol>https</protocol>
-      <username>****</username>
-      <password>****</password>
-      <host>****</host>
+      <username>***</username>
+      <password>***</password>
+      <host>***</host>
       <port>8080</port>
       <nonProxyHosts></nonProxyHosts>
     </proxy>
     
-  </proxies> -->
+  </proxies>  -->
 
   <!-- servers
    | This is a list of authentication profiles, keyed by the server-id used within the system.

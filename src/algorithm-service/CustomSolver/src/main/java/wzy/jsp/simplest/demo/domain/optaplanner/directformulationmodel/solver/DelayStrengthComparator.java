@@ -1,4 +1,4 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.solver;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.solver;
 
 import java.io.Serializable;
 import java.util.Comparator;

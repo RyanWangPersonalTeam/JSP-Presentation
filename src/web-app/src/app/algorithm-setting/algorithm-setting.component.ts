@@ -41,7 +41,7 @@ export class AlgorithmSettingComponent implements OnInit {
     });
 
     this.representTypes=[{key:RepresentType.DirectFormulation,value:"Direct Formulation",img:"/assets/imgs/model1.png",disabled:false,url:'./direct-formulation-intro'},
-                          {key:RepresentType.DisjunctiveGraph,value:"Disjunctive Graph",img:"/assets/imgs/model2.png",disabled:false,url:'./markdown-test2'},];
+                          {key:RepresentType.DisjunctiveGraph,value:"Disjunctive Graph",img:"/assets/imgs/model2.png",disabled:false,url:'./disjunctive-graph-intro'},];
     this.algorithmTypes=[{key:AlgorithmType.RandomSequenceHeuristic,value:AlgorithmType[AlgorithmType.RandomSequenceHeuristic],description:"A simple heuristic algorihtm, just assign jobs one by one",disabled:false},
                          {key:AlgorithmType.NativeSimulatedAnnealing,value:AlgorithmType[AlgorithmType.NativeSimulatedAnnealing],description:"Basic Simulated Annealing algorithm",disabled:false},
                          {key:AlgorithmType.NativeGeneticAlgorithm,value:AlgorithmType[AlgorithmType.NativeGeneticAlgorithm],description:"Basic Genetic algorithm",disabled:false},

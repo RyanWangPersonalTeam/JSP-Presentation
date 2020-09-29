@@ -1,7 +1,7 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.test;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.test;
 
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.*;
-import wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource.Resource;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.*;
+import wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.List;

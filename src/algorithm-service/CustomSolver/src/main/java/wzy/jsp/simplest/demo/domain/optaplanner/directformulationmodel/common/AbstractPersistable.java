@@ -1,4 +1,4 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.common;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.common;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 

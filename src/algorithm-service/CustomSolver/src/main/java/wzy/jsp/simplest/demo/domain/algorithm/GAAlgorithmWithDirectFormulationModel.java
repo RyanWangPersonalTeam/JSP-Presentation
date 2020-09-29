@@ -7,10 +7,8 @@ import wzy.jsp.simplest.demo.common.IMetaHeuristicAlgorithm;
 import wzy.jsp.simplest.demo.common.IntermediateSolutionCallback;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.component.VariableConverter;
-import wzy.jsp.simplest.demo.domain.algorithm.represent.GAParametersWithDelayTimeRepresentModel;
-import wzy.jsp.simplest.demo.domain.algorithm.represent.SAParametersWithDelayTimeRepresentModel;
+import wzy.jsp.simplest.demo.domain.algorithm.represent.GAParametersWithDirectFormulationModel;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
-import wzy.jsp.simplest.demo.domain.communication.Task;
 
 import java.util.*;
 
@@ -18,8 +16,8 @@ import java.util.*;
  * GA Algorithm using delay time represent model
  * It will calculate the best es value
  */
-public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlgorithm, IAlgorithmCore {
-    private GAParametersWithDelayTimeRepresentModel gaParameters;
+public class GAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgorithm, IAlgorithmCore {
+    private GAParametersWithDirectFormulationModel gaParameters;
     private VariableConverter variableConverter;
     private AMQPHandler amqpHandler;
     private int currentBestScore=Integer.MAX_VALUE;//Record the best score (original objective function value , not fitness or combining with M)
@@ -33,18 +31,18 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
 
     private int initFeasibleSolutionNum;
 
-    public GAAlgorithmWithDelayTimeRepresentModel(GAParametersWithDelayTimeRepresentModel gaParameters,
-                                                  VariableConverter variableConverter,
-                                                  IntermediateSolutionCallback intermediateSolutionCallback,
-                                                  AMQPHandler amqpHandler){
+    public GAAlgorithmWithDirectFormulationModel(GAParametersWithDirectFormulationModel gaParameters,
+                                                 VariableConverter variableConverter,
+                                                 IntermediateSolutionCallback intermediateSolutionCallback,
+                                                 AMQPHandler amqpHandler){
         this.gaParameters=gaParameters;
         this.variableConverter=variableConverter;
         this.intermediateSolutionCallback=intermediateSolutionCallback;
         this.amqpHandler=amqpHandler;
 
-        this.logger= LoggerFactory.getLogger(GAAlgorithmWithDelayTimeRepresentModel.class);
+        this.logger= LoggerFactory.getLogger(GAAlgorithmWithDirectFormulationModel.class);
 
-        this.M=this.gaParameters.getDelayTimeRepresentModel().timeUpperLimit*10;
+        this.M=this.gaParameters.getDirectFormulationModel().timeUpperLimit*10;
 
         this.initFeasibleSolutionNum=1;
         if(this.gaParameters.getSolution().Jobs.size()<=10){
@@ -78,9 +76,9 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
             Select();
         }
 
-        this.gaParameters.getDelayTimeRepresentModel().es=this.currentBestES;
-        Solution solvedSolution=this.variableConverter.getScheduledSolutionFromDelayTimeRepresentModel(
-                this.gaParameters.getDelayTimeRepresentModel(), this.gaParameters.getSolution()
+        this.gaParameters.getDirectFormulationModel().es=this.currentBestES;
+        Solution solvedSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(
+                this.gaParameters.getDirectFormulationModel(), this.gaParameters.getSolution()
         );
         solvedSolution.FinalResult=true;
         return solvedSolution;
@@ -91,8 +89,8 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         //Add random value in initial solution to generate population
         this.population=new Chromosome[this.gaParameters.getPopSize()];
 
-        SimpleHeuristicAlgorithmWithDelayTimeRepresentModel simpleAlgorithm=new SimpleHeuristicAlgorithmWithDelayTimeRepresentModel(
-                this.gaParameters.getDelayTimeRepresentModel(),
+        SimpleHeuristicAlgorithmWithDirectFormulationModel simpleAlgorithm=new SimpleHeuristicAlgorithmWithDirectFormulationModel(
+                this.gaParameters.getDirectFormulationModel(),
                 this.variableConverter,
                 this.gaParameters.getSolution()
         );
@@ -151,8 +149,8 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
 
     //Objective value of each chromosome
     public int Fun(Chromosome chromosome){
-        this.gaParameters.getDelayTimeRepresentModel().es=chromosome.getEs();
-        List<List<Integer>> startTimes=this.variableConverter.getStartTimesFromEs(this.gaParameters.getDelayTimeRepresentModel());
+        this.gaParameters.getDirectFormulationModel().es=chromosome.getEs();
+        List<List<Integer>> startTimes=this.variableConverter.getStartTimesFromEs(this.gaParameters.getDirectFormulationModel());
         int maxEndTime=this.getBasicEvaluationValue(startTimes);
         int hardConstraintValue=this.checkHardConstraint(startTimes,maxEndTime);
         int originalScore=maxEndTime+hardConstraintValue;
@@ -170,7 +168,7 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         int max=0;
         for(int i=0;i<startTimes.size();i++){
             int lastIndex=startTimes.get(i).size()-1;
-            int temp=startTimes.get(i).get(lastIndex)+this.gaParameters.getDelayTimeRepresentModel().durations.get(i).get(lastIndex);
+            int temp=startTimes.get(i).get(lastIndex)+this.gaParameters.getDirectFormulationModel().durations.get(i).get(lastIndex);
             if(temp>max){
                 max=temp;
             }
@@ -183,7 +181,7 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
         //Check every time point
         for(int t=0;t<=maxEndTime/*this.saParameters.getDelayTimeRepresentModel().timeUpperLimit*/;t++){//replace 'timeUpperLimit' into 'maxEndTime' to improve performance
             //Check the occupy status of every machine this time point
-            for(int k=0;k<this.gaParameters.getDelayTimeRepresentModel().machines.length;k++){
+            for(int k = 0; k<this.gaParameters.getDirectFormulationModel().machines.length; k++){
                 int occupySum=0;
                 for(int i=0;i<startTimes.size();i++){
                     for(int j=0;j<startTimes.get(i).size();j++){
@@ -191,8 +189,8 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
                             continue;
                         }
                         int startTime=startTimes.get(i).get(j);
-                        int duration=this.gaParameters.getDelayTimeRepresentModel().durations.get(i).get(j);
-                        int occupyValueThisMachine=this.gaParameters.getDelayTimeRepresentModel().occupies.get(i).get(j)[k];
+                        int duration=this.gaParameters.getDirectFormulationModel().durations.get(i).get(j);
+                        int occupyValueThisMachine=this.gaParameters.getDirectFormulationModel().occupies.get(i).get(j)[k];
                         if(startTime<=t && startTime+duration>t){
                             occupySum+=occupyValueThisMachine;
                         }
@@ -313,7 +311,7 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
                 }
                 this.currentBestES.add(es);
             }
-            this.gaParameters.getDelayTimeRepresentModel().es=this.currentBestES;
+            this.gaParameters.getDirectFormulationModel().es=this.currentBestES;
             this.HandleIntermediateSolution(this.gaParameters.getSolution());
         }
         this.logger.info("Best eval this generation : "+bestEval);
@@ -376,7 +374,7 @@ public class GAAlgorithmWithDelayTimeRepresentModel implements IMetaHeuristicAlg
     public void HandleIntermediateSolution(Solution solution) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.gaParameters.getSolution().FinalResult=false;
-            Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDelayTimeRepresentModel(this.gaParameters.getDelayTimeRepresentModel(),this.gaParameters.getSolution());
+            Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(this.gaParameters.getDirectFormulationModel(),this.gaParameters.getSolution());
             intermediateSolution.FinalResult=false;
             this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
         }

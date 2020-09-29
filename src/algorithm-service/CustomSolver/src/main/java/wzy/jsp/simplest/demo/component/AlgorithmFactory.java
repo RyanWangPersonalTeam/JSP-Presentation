@@ -2,7 +2,6 @@ package wzy.jsp.simplest.demo.component;
 
 import wzy.jsp.simplest.demo.common.IAlgorithmCore;
 import wzy.jsp.simplest.demo.domain.algorithm.*;
-import wzy.jsp.simplest.demo.domain.algorithm.callback.PrintIntermediateSolution;
 import wzy.jsp.simplest.demo.domain.algorithm.callback.SendIntermediateSolution;
 import wzy.jsp.simplest.demo.domain.algorithm.represent.*;
 import wzy.jsp.simplest.demo.domain.communication.amqp.CalculateRequest;
@@ -31,9 +30,9 @@ public class AlgorithmFactory {
                 case RandomSequenceHeuristic:{
                     DateTimeConverter dateTimeConverter=new DateTimeConverter();
                     VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
-                    DelayTimeRepresentModel delayTimeRepresentModel=variableConverter.getDelayTimeRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
-                    SimpleHeuristicAlgorithmWithDelayTimeRepresentModel sha=new SimpleHeuristicAlgorithmWithDelayTimeRepresentModel(
-                            delayTimeRepresentModel,
+                    DirectFormulationModel directFormulationModel =variableConverter.getDirectFormulationRepresentModelFromSolution(calculateRequest.UnsolvedSolution,calculateRequest.Initialized);
+                    SimpleHeuristicAlgorithmWithDirectFormulationModel sha=new SimpleHeuristicAlgorithmWithDirectFormulationModel(
+                            directFormulationModel,
                             variableConverter,
                             calculateRequest.UnsolvedSolution
                     );
@@ -53,7 +52,7 @@ public class AlgorithmFactory {
 //                }
 //                break;
                 case GoogleOrToolCpSolver:{
-                    OrToolCpSolverWithDelayTimeRepresentModel ot=new OrToolCpSolverWithDelayTimeRepresentModel(
+                    OrToolCpSolverWithDirectFormulationModel ot=new OrToolCpSolverWithDirectFormulationModel(
                             calculateRequest.UnsolvedSolution,
                             new SendIntermediateSolution(),
                             amqpHandler
@@ -62,7 +61,7 @@ public class AlgorithmFactory {
                 }
                 break;
                 case OptaPlannerSolver:{
-                    IAlgorithmCore op= new OptaPlannerSolverWithDelayTimeRepresentModel(
+                    IAlgorithmCore op= new OptaPlannerSolverWithDirectFormulationModel(
                             amqpHandler,
                             new VariableConverter(new DateTimeConverter()),
                             calculateRequest.UnsolvedSolution,
@@ -84,6 +83,21 @@ public class AlgorithmFactory {
                     algorithmCore=ot;
                 }
                 break;
+                case NativeGeneticAlgorithm:{
+                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
+                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
+                    DisjunctiveGraphModel disjunctiveGraphModel=variableConverter.getDisjunctiveGraphFromSolution(
+                            calculateRequest.UnsolvedSolution,
+                            true
+                    );
+                    GAAlgorithmWithDisjunctiveGraph ga=new GAAlgorithmWithDisjunctiveGraph(
+                            new GAParametersWithDisjunctiveGraph(disjunctiveGraphModel,calculateRequest.UnsolvedSolution),
+                            variableConverter,
+                            new SendIntermediateSolution(),
+                            amqpHandler
+                    );
+                    algorithmCore=ga;
+                }
             }
         }
         return algorithmCore;

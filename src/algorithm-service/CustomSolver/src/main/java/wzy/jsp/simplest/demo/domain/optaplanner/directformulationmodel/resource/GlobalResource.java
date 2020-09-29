@@ -1,4 +1,4 @@
-package wzy.jsp.simplest.demo.domain.optaplanner.delaytimemodel.resource;
+package wzy.jsp.simplest.demo.domain.optaplanner.directformulationmodel.resource;
 
 import java.util.UUID;
 

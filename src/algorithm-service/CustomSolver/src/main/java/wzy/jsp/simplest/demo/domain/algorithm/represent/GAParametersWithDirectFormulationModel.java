@@ -2,12 +2,12 @@ package wzy.jsp.simplest.demo.domain.algorithm.represent;
 
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 
-public class GAParametersWithDelayTimeRepresentModel {
-    private DelayTimeRepresentModel delayTimeRepresentModel;
+public class GAParametersWithDirectFormulationModel {
+    private DirectFormulationModel directFormulationModel;
     //Penalty value for hard constraints violating
     private int I=10000;
     //Chromosome size
-    private int popSize=1000;
+    private int popSize=20;
     //Crossover probability
     private double Pc=0.90;
     //Mutation probability
@@ -19,14 +19,14 @@ public class GAParametersWithDelayTimeRepresentModel {
 
     private Solution solution;
 
-    public GAParametersWithDelayTimeRepresentModel(DelayTimeRepresentModel delayTimeRepresentModel, Solution solution){
-        this.delayTimeRepresentModel=delayTimeRepresentModel;
+    public GAParametersWithDirectFormulationModel(DirectFormulationModel directFormulationModel, Solution solution){
+        this.directFormulationModel = directFormulationModel;
         this.solution=solution;
     }
 
-    public GAParametersWithDelayTimeRepresentModel(DelayTimeRepresentModel delayTimeRepresentModel, Solution solution,
-                                                   int I,int popSize,double Pc,double Pm,double mutateDeltaUpLimit,int gN){
-        this.delayTimeRepresentModel=delayTimeRepresentModel;
+    public GAParametersWithDirectFormulationModel(DirectFormulationModel directFormulationModel, Solution solution,
+                                                  int I, int popSize, double Pc, double Pm, double mutateDeltaUpLimit, int gN){
+        this.directFormulationModel = directFormulationModel;
         this.solution=solution;
         this.I=I;
         this.popSize=popSize;
@@ -36,8 +36,8 @@ public class GAParametersWithDelayTimeRepresentModel {
         this.gN=gN;
     }
 
-    public DelayTimeRepresentModel getDelayTimeRepresentModel() {
-        return delayTimeRepresentModel;
+    public DirectFormulationModel getDirectFormulationModel() {
+        return directFormulationModel;
     }
 
     public int getI() {
