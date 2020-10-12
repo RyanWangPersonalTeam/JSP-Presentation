@@ -577,4 +577,18 @@ public class VariableConverter {
         return unsolvedSolution;
     }
 
+    public Map<String, List<NodeInDG>> deepCopyPermutation(Map<String, List<NodeInDG>> permutation){
+        Map<String, List<NodeInDG>> taskPermutation=new HashMap<>();
+        for(Map.Entry<String, List<NodeInDG>> v : permutation.entrySet()){
+            String machineName=v.getKey();
+            List<NodeInDG> nodes=v.getValue();
+            List<NodeInDG> newNodes=new ArrayList<>();
+            for(int i=0;i<nodes.size();i++){
+                newNodes.add(nodes.get(i));
+            }
+            taskPermutation.put(machineName,newNodes);
+        }
+        return taskPermutation;
+    }
+
 }

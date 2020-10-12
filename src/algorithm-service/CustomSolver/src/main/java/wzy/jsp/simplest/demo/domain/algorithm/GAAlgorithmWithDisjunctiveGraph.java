@@ -75,7 +75,7 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         this.population=new Chromosome[this.gaParameters.getPopSize()];
         Map<String, List<NodeInDG>> initPermutation=this.gaParameters.getDisjunctiveGraphModel().nodesPerMachine;
         for(int i=0;i<this.gaParameters.getPopSize();i++){
-            Map<String, List<NodeInDG>> newPermutation=this.deepCopyPermutation(initPermutation);
+            Map<String, List<NodeInDG>> newPermutation=this.variableConverter.deepCopyPermutation(initPermutation);
             newPermutation=shuffleTaskPermutation(newPermutation);
             Chromosome chromosome=new Chromosome(newPermutation);
             this.population[i]=chromosome;
@@ -279,7 +279,7 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         }
         if(this.currentBestScore==null || this.currentBestScore>this.population[bestIndex].getOriginalScore()){
             this.currentBestScore=this.population[bestIndex].getOriginalScore();
-            this.currentBestPermutation=this.deepCopyPermutation(this.population[bestIndex].taskPermutation);
+            this.currentBestPermutation=this.variableConverter.deepCopyPermutation(this.population[bestIndex].taskPermutation);
             this.gaParameters.getDisjunctiveGraphModel().nodesPerMachine=this.currentBestPermutation;
             this.HandleIntermediateSolution(this.gaParameters.getSolution());
         }
@@ -355,19 +355,6 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         }
     }
 
-    private Map<String, List<NodeInDG>> deepCopyPermutation(Map<String, List<NodeInDG>> permutation){
-        Map<String, List<NodeInDG>> taskPermutation=new HashMap<>();
-        for(Map.Entry<String, List<NodeInDG>> v : permutation.entrySet()){
-            String machineName=v.getKey();
-            List<NodeInDG> nodes=v.getValue();
-            List<NodeInDG> newNodes=new ArrayList<>();
-            for(int i=0;i<nodes.size();i++){
-                newNodes.add(nodes.get(i));
-            }
-            taskPermutation.put(machineName,newNodes);
-        }
-        return taskPermutation;
-    }
 
     //Use shuffle algorithm to shuffle the task permutation in each machine
     public Map<String, List<NodeInDG>> shuffleTaskPermutation(Map<String, List<NodeInDG>> taskPermutation){

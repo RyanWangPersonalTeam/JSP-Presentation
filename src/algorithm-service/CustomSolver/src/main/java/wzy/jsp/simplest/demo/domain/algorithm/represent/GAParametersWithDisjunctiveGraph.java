@@ -5,11 +5,11 @@ import wzy.jsp.simplest.demo.domain.communication.Solution;
 public class GAParametersWithDisjunctiveGraph {
     private DisjunctiveGraphModel disjunctiveGraphModel;
     //Chromosome size
-    private int popSize=500;
+    private int popSize=1000;
     //Crossover probability
-    private double Pc=0.90;
+    private double Pc=0.95;
     //Mutation probability
-    private double Pm=0.05;
+    private double Pm=0.1;
     //Genetic num
     private int gN=1000;
     //Pressure adjust factor

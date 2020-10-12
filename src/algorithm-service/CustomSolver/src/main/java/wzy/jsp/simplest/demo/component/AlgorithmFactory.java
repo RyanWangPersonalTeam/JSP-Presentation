@@ -98,6 +98,23 @@ public class AlgorithmFactory {
                     );
                     algorithmCore=ga;
                 }
+                break;
+                case NativeSimulatedAnnealing:{
+                    DateTimeConverter dateTimeConverter=new DateTimeConverter();
+                    VariableConverter variableConverter=new VariableConverter(dateTimeConverter);
+                    DisjunctiveGraphModel disjunctiveGraphModel=variableConverter.getDisjunctiveGraphFromSolution(
+                            calculateRequest.UnsolvedSolution,
+                            true
+                    );
+                    SAAlgorithmWithDisjunctiveGraph sa=new SAAlgorithmWithDisjunctiveGraph(
+                             new SAParametersWithDisjunctiveGraph(disjunctiveGraphModel,calculateRequest.UnsolvedSolution),
+                            variableConverter,
+                            new SendIntermediateSolution(),
+                            amqpHandler
+                    );
+                    algorithmCore=sa;
+                }
+                break;
             }
         }
         return algorithmCore;
