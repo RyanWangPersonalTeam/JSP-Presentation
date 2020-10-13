@@ -7,6 +7,8 @@ import wzy.jsp.simplest.demo.common.IAlgorithmCore;
 import wzy.jsp.simplest.demo.common.IHandleNewCalculateRequest;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.component.AlgorithmFactory;
+import wzy.jsp.simplest.demo.component.DateTimeConverter;
+import wzy.jsp.simplest.demo.component.VariableConverter;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 import wzy.jsp.simplest.demo.domain.communication.amqp.CalculateRequest;
 import wzy.jsp.simplest.demo.domain.communication.amqp.CalculateResponse;
@@ -57,6 +59,8 @@ public class MainAlgorithmProcess implements IHandleNewCalculateRequest {
                 SolutionPrintHelper.printScheduleSolution(solvedSolution);
                 response.Success=true;
                 response.SolvedSolution=solvedSolution;
+                Integer score=new VariableConverter(new DateTimeConverter()).getMakespanFromSolution(solvedSolution);
+                response.LogInfo=String.format("Current best solution, score : %d, status : %s",score,solvedSolution.FinalResult?"Final Result":"Intermediate Result");
             }
         }
         for(int i=0;i<3;i++){

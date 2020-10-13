@@ -54,7 +54,7 @@ public class SAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         this.currentBestScore=this.currentEvalValue;
         this.currentBestPermutation=this.variableConverter.deepCopyPermutation(this.saParameters.getDisjunctiveGraphModel().nodesPerMachine);
 
-        this.HandleIntermediateSolution(this.saParameters.getSolution());
+        this.HandleIntermediateSolution(this.saParameters.getSolution(),this.currentBestScore);
 
         //Simulated Annealing
         int index=0;
@@ -78,19 +78,8 @@ public class SAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
     //Evaluation function
     public int getEvaluationValue(){
         Solution decodeSolution=this.variableConverter.getSolutionFromDisjunctiveGraph(this.saParameters.getSolution(),this.saParameters.getDisjunctiveGraphModel());
-        String maxEndTime=null;
-        for(int jobIndex=0;jobIndex<this.saParameters.getSolution().Jobs.size();jobIndex++){
-            String endTime=this.saParameters.getSolution().Jobs.get(jobIndex).Tasks.get(
-                    this.saParameters.getSolution().Jobs.get(jobIndex).Tasks.size()-1
-            ).EndTime;
-            if(maxEndTime==null || this.variableConverter.getDateTimeConverter().CalculateCountValueBetweenDates(maxEndTime,endTime)>0){
-                maxEndTime=endTime;
-            }
-        }
-        Integer makespan=this.variableConverter.getDateTimeConverter().CalculateCountValueBetweenDates(
-                this.saParameters.getSolution().MinTime,
-                maxEndTime
-        );
+
+        Integer makespan=this.variableConverter.getMakespanFromSolution(decodeSolution);
 
         return makespan;
     }
@@ -183,19 +172,19 @@ public class SAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         if(this.currentBestPermutation==null || this.currentBestScore>Math.min(F_current,F_new)){
             this.currentBestScore=Math.min(F_current,F_new);
             this.currentBestPermutation=this.variableConverter.deepCopyPermutation(this.saParameters.getDisjunctiveGraphModel().nodesPerMachine);
-            this.HandleIntermediateSolution(this.saParameters.getSolution());
+            this.HandleIntermediateSolution(this.saParameters.getSolution(),this.currentBestScore);
         }
 
     }
 
 
     @Override
-    public void HandleIntermediateSolution(Solution solution) throws Exception {
+    public void HandleIntermediateSolution(Solution solution,int score) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.saParameters.getSolution().FinalResult=false;
             Solution intermediateSolution=this.variableConverter.getSolutionFromDisjunctiveGraph(this.saParameters.getSolution(),this.saParameters.getDisjunctiveGraphModel());
             intermediateSolution.FinalResult=false;
-            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
+            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler,score);
         }
     }
 

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DemoSetting, RepresentType, AlgorithmType } from '../models/demo-setting';
 import { AlgorithmSettingComponent } from '../algorithm-setting/algorithm-setting.component';
 import { environment } from '../../environments/environment';
+import { stringify } from 'querystring';
 
 enum CurrentStatus {
   None,
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit {
   public blankTime = "00:00.000"
   public time = "00:00.000"
 
+  logInfo:string;
 
   constructor(private solutionChartConvertService:SolutionChartConvertService,
     private http:HttpClient,
@@ -68,6 +70,7 @@ export class HomeComponent implements OnInit {
               .build();
     this.testHub.on('PushSolutionResponse',(response:CalculateResponse)=>{
       if(response.success==false){
+        this.appendLog('Calculate failed!');
         if(this.currentStatus!=CurrentStatus.AlgorithmServiceIsBusyNow){
           alert(response.errorMessage);
         }
@@ -77,6 +80,9 @@ export class HomeComponent implements OnInit {
         //console.info("solution : "+JSON.stringify(solution));
         this.currentSolution=response.solvedSolution;
         this.setChartItems(this.currentSolution);
+        if(response.logInfo){
+          this.appendLog(response.logInfo);
+        }
         if(this.currentSolution.finalResult==false){
           this.setCurrentStatus(CurrentStatus.Calculating);
         }
@@ -124,7 +130,7 @@ export class HomeComponent implements OnInit {
       },
     };
 
-    
+    this.logInfo="";
   }
 
 
@@ -169,7 +175,6 @@ export class HomeComponent implements OnInit {
   }
 
   onSampleData(){
-    
     this.http.get(this.baseUrl+"/api/Solve/GetRandomTestData?jobNum="+this.demoSetting.jobNum+"&taskNum="+this.demoSetting.taskNumPerJob)
       .subscribe((data:object) => {
         this.currentSolution=data as Solution;
@@ -196,6 +201,7 @@ export class HomeComponent implements OnInit {
       request.algorithmType=AlgorithmType[this.demoSetting.algorithmType];
       this.testHub.send("NewCalculateRequest",request);
       this.setCurrentStatus(CurrentStatus.ClickCalculateButton);
+      this.appendLog("A new calculation for "+this.demoSetting.jobNum+'X'+this.demoSetting.taskNumPerJob+' JSP, using '+AlgorithmType[this.demoSetting.algorithmType]+' algorithm based on '+RepresentType[this.demoSetting.representType]+' model');
   }
 
   setCurrentStatus(status:CurrentStatus){
@@ -306,5 +312,9 @@ export class HomeComponent implements OnInit {
                 this.zeroPrefix(sec, 2) + "." +
                 this.zeroPrefix(ms, 3);
   };
+
+  appendLog(newLog:string){
+    this.logInfo+=' >'+newLog+'\r\n';
+  }
 
 }

@@ -6,7 +6,7 @@ import wzy.jsp.simplest.demo.domain.communication.Solution;
 
 public class PrintIntermediateSolution implements IntermediateSolutionCallback {
     @Override
-    public void HandleIntermediateSolution(Solution solution, AMQPHandler amqpHandler) {
+    public void HandleIntermediateSolution(Solution solution, AMQPHandler amqpHandler,int score) {
         System.out.println("Current best solution : ");
         SolutionPrintHelper.printScheduleSolution(solution);
     }

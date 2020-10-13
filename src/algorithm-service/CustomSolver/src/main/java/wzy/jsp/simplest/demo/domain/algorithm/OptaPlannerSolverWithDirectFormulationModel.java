@@ -57,7 +57,8 @@ public class OptaPlannerSolverWithDirectFormulationModel implements  IAlgorithmC
     public Solution Calculate(boolean initialized) throws Exception {
         if(this.intermediateSolutionCallback!=null && initialized){
             try{
-                this.intermediateSolutionCallback.HandleIntermediateSolution(this.originalUnsolvedSolution,this.amqpHandler);
+                Integer score=this.variableConverter.getMakespanFromSolution(this.originalUnsolvedSolution);
+                this.intermediateSolutionCallback.HandleIntermediateSolution(this.originalUnsolvedSolution,this.amqpHandler,score);
             }catch (Exception ex){
                 logger.error(ex.getMessage(),ex);
                 throw ex;
@@ -93,7 +94,8 @@ public class OptaPlannerSolverWithDirectFormulationModel implements  IAlgorithmC
             );
             intermediateSolution.FinalResult=false;
             try{
-                this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
+                Integer score=this.variableConverter.getMakespanFromSolution(intermediateSolution);
+                this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler,score);
             }catch (Exception ex){
                 logger.error(ex.getMessage(),ex);
             }

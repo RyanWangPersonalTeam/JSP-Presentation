@@ -10,5 +10,7 @@ namespace WebAPI.Models.Communication
         public bool Success { get; set; }
         public Solution SolvedSolution { get; set; }
         public string ErrorMessage { get; set; }
+
+        public string LogInfo { get; set; }
     }
 }

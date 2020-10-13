@@ -62,7 +62,7 @@ public class GAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
         this.currentBestScore=Integer.MAX_VALUE;
         this.currentBestES=null;
         if(initialized){
-            this.HandleIntermediateSolution(this.gaParameters.getSolution());
+            this.HandleIntermediateSolution(this.gaParameters.getSolution(),this.currentBestScore);
         }
 
         InitPopulation();
@@ -312,7 +312,7 @@ public class GAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
                 this.currentBestES.add(es);
             }
             this.gaParameters.getDirectFormulationModel().es=this.currentBestES;
-            this.HandleIntermediateSolution(this.gaParameters.getSolution());
+            this.HandleIntermediateSolution(this.gaParameters.getSolution(),this.currentBestScore);
         }
         this.logger.info("Best eval this generation : "+bestEval);
         this.logger.info("Best score this generation : "+(this.population[bestIndex].getOriginalScore()));
@@ -371,12 +371,12 @@ public class GAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
     }
 
     @Override
-    public void HandleIntermediateSolution(Solution solution) throws Exception {
+    public void HandleIntermediateSolution(Solution solution,int score) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.gaParameters.getSolution().FinalResult=false;
             Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(this.gaParameters.getDirectFormulationModel(),this.gaParameters.getSolution());
             intermediateSolution.FinalResult=false;
-            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
+            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler,score);
         }
     }
 

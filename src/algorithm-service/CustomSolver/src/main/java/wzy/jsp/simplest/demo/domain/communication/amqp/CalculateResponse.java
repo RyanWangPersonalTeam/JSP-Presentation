@@ -6,4 +6,5 @@ public class CalculateResponse {
     public boolean Success;
     public Solution SolvedSolution;
     public String ErrorMessage;
+    public String LogInfo;
 }

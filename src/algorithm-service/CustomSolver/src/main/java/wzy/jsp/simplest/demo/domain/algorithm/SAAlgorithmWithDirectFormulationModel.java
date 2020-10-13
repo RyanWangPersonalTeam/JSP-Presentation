@@ -69,7 +69,7 @@ public class SAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
             this.currentBestES.add(es);
         }
 
-        this.HandleIntermediateSolution(this.saParameters.getSolution());
+        this.HandleIntermediateSolution(this.saParameters.getSolution(),this.currentBestScore);
 
         //Simulated Annealing
         int index=0;
@@ -217,7 +217,7 @@ public class SAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
                 }
                 this.currentBestES.add(es);
             }
-            this.HandleIntermediateSolution(this.saParameters.getSolution());
+            this.HandleIntermediateSolution(this.saParameters.getSolution(),this.currentBestScore);
         }
 
     }
@@ -242,12 +242,12 @@ public class SAAlgorithmWithDirectFormulationModel implements IMetaHeuristicAlgo
     }
 
     @Override
-    public void HandleIntermediateSolution(Solution solution) throws Exception {
+    public void HandleIntermediateSolution(Solution solution,int score) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.saParameters.getSolution().FinalResult=false;
             Solution intermediateSolution=this.variableConverter.getScheduledSolutionFromDirectFormulationRepresentModel(this.saParameters.getDirectFormulationModel(),this.saParameters.getSolution());
             intermediateSolution.FinalResult=false;
-            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
+            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler,score);
         }
     }
 

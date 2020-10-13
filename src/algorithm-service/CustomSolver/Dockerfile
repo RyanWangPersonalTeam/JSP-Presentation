@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 # proxy configuration if necessary
-#ENV http_proxy=***
-#ENV https_proxy=***
+# ENV http_proxy=****
+# ENV https_proxy=****
 # install java
 RUN apt-get update
 RUN apt-get -y install default-jdk

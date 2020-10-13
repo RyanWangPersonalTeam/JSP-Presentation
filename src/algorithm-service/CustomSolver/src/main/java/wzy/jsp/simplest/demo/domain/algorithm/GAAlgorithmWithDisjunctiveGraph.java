@@ -47,7 +47,7 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
         this.currentBestScore=Integer.MAX_VALUE;
         this.currentBestPermutation=null;
         if(initialized){
-            this.HandleIntermediateSolution(this.gaParameters.getSolution());
+            this.HandleIntermediateSolution(this.gaParameters.getSolution(),this.currentBestScore);
         }
 
         InitPopulation();
@@ -86,19 +86,7 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
     public Double Fun(Chromosome chromosome){
         this.gaParameters.getDisjunctiveGraphModel().nodesPerMachine=chromosome.taskPermutation;
         Solution decodeSolution=this.variableConverter.getSolutionFromDisjunctiveGraph(this.gaParameters.getSolution(),this.gaParameters.getDisjunctiveGraphModel());
-        String maxEndTime=null;
-        for(int jobIndex=0;jobIndex<this.gaParameters.getSolution().Jobs.size();jobIndex++){
-            String endTime=this.gaParameters.getSolution().Jobs.get(jobIndex).Tasks.get(
-                    this.gaParameters.getSolution().Jobs.get(jobIndex).Tasks.size()-1
-            ).EndTime;
-            if(maxEndTime==null || this.variableConverter.getDateTimeConverter().CalculateCountValueBetweenDates(maxEndTime,endTime)>0){
-                maxEndTime=endTime;
-            }
-        }
-        Integer makespan=this.variableConverter.getDateTimeConverter().CalculateCountValueBetweenDates(
-                this.gaParameters.getSolution().MinTime,
-                maxEndTime
-        );
+        Integer makespan=this.variableConverter.getMakespanFromSolution(decodeSolution);
         chromosome.setOriginalScore(makespan);
         //return (M-makespan);
         return Double.valueOf(makespan);
@@ -281,7 +269,7 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
             this.currentBestScore=this.population[bestIndex].getOriginalScore();
             this.currentBestPermutation=this.variableConverter.deepCopyPermutation(this.population[bestIndex].taskPermutation);
             this.gaParameters.getDisjunctiveGraphModel().nodesPerMachine=this.currentBestPermutation;
-            this.HandleIntermediateSolution(this.gaParameters.getSolution());
+            this.HandleIntermediateSolution(this.gaParameters.getSolution(),this.currentBestScore);
         }
         this.logger.info("Best eval this generation : "+bestEval);
         this.logger.info("Best score this generation : "+(this.population[bestIndex].getOriginalScore()));
@@ -307,51 +295,16 @@ public class GAAlgorithmWithDisjunctiveGraph implements IMetaHeuristicAlgorithm,
             newPopulation[index]=competitors[maxEvalIndexInCompetitors];
         }
 
-        //Roulette Selection
-//        double[] qs=new double[this.population.length+1];
-//        qs[0]=0;
-//        double currentAccumulation=0;
-//        for(int j=1;j<qs.length;j++){
-//            qs[j]=currentAccumulation+this.population[j-1].getEval();
-//            currentAccumulation=qs[j];
-//        }
-//
-//        Chromosome[] newPopulation=new Chromosome[this.population.length];
-//        int s=0;
-//        for(int i=s;i<this.population.length;i++){
-//            double r=0;
-//            while (r==0){
-//                r=(new Random().nextDouble())*qs[qs.length-1];
-//            }
-//            int index=GetHitIndex(qs,0,qs.length-1,r);
-//            newPopulation[i]=this.population[index];
-//        }
-//        this.population=newPopulation;
     }
 
-    public int GetHitIndex(double[] qs, int startPos, int endPos, double r){
-        if(startPos+1==endPos){
-            return startPos;
-        }
-        int midPos=(startPos+endPos)/2;
-        if(r>qs[midPos-1] && r<=qs[midPos]){
-            return midPos-1;
-        }
-        else if(r<=qs[midPos-1] && r<=qs[midPos]){
-            return GetHitIndex(qs,startPos,midPos,r);
-        }
-        else{
-            return GetHitIndex(qs,midPos,endPos,r);
-        }
-    }
 
     @Override
-    public void HandleIntermediateSolution(Solution solution) throws Exception {
+    public void HandleIntermediateSolution(Solution solution,int score) throws Exception {
         if(this.intermediateSolutionCallback!=null){
             this.gaParameters.getSolution().FinalResult=false;
             Solution intermediateSolution=this.variableConverter.getSolutionFromDisjunctiveGraph(this.gaParameters.getSolution(),this.gaParameters.getDisjunctiveGraphModel());
             intermediateSolution.FinalResult=false;
-            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler);
+            this.intermediateSolutionCallback.HandleIntermediateSolution(intermediateSolution,this.amqpHandler,score);
         }
     }
 

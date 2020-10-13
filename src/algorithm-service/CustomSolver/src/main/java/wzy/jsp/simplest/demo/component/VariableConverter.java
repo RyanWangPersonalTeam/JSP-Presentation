@@ -591,4 +591,21 @@ public class VariableConverter {
         return taskPermutation;
     }
 
+    public Integer getMakespanFromSolution(Solution solution){
+        String maxEndTime=null;
+        for(int jobIndex=0;jobIndex<solution.Jobs.size();jobIndex++){
+            String endTime=solution.Jobs.get(jobIndex).Tasks.get(
+                    solution.Jobs.get(jobIndex).Tasks.size()-1
+            ).EndTime;
+            if(maxEndTime==null || this.dateTimeConverter.CalculateCountValueBetweenDates(maxEndTime,endTime)>0){
+                maxEndTime=endTime;
+            }
+        }
+        Integer makespan=this.dateTimeConverter.CalculateCountValueBetweenDates(
+                solution.MinTime,
+                maxEndTime
+        );
+        return makespan;
+    }
+
 }

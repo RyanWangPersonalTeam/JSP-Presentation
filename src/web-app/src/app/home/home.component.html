@@ -49,5 +49,18 @@
   <gstc [config]="config" (onState)="onState($event)"></gstc>
 </mat-card>
 
+<mat-card style="height: 40%;"> 
+    <mat-card-header>
+        <mat-card-title>Logs</mat-card-title>
+        <div>
+            <button mat-raised-button style="margin-bottom: 5px;" (click)="logInfo=''">Clear</button>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <textarea matInput rows="14"  #scrollMe [scrollTop]="scrollMe.scrollHeight" readonly style="width: 100%; resize: none; background-color: black; color: white;" [(ngModel)]="logInfo">
+        </textarea>
+      </mat-card-content>
+</mat-card>
+
 
 

@@ -8,5 +8,5 @@ import wzy.jsp.simplest.demo.domain.communication.Solution;
  * e.g. send this intermediate result to a queue
  */
 public interface IntermediateSolutionCallback {
-    void HandleIntermediateSolution(Solution solution, AMQPHandler amqpHandler) throws Exception;
+    void HandleIntermediateSolution(Solution solution, AMQPHandler amqpHandler, int score) throws Exception;
 }

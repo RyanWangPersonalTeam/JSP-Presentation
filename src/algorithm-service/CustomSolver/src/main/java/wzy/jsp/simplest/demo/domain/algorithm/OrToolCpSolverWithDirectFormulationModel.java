@@ -7,6 +7,7 @@ import wzy.jsp.simplest.demo.common.IAlgorithmCore;
 import wzy.jsp.simplest.demo.common.IntermediateSolutionCallback;
 import wzy.jsp.simplest.demo.component.AMQPHandler;
 import wzy.jsp.simplest.demo.component.DateTimeConverter;
+import wzy.jsp.simplest.demo.component.VariableConverter;
 import wzy.jsp.simplest.demo.domain.algorithm.callback.SolutionPrintHelper;
 import wzy.jsp.simplest.demo.domain.communication.Solution;
 import wzy.jsp.simplest.demo.domain.communication.Task;
@@ -33,7 +34,8 @@ public class OrToolCpSolverWithDirectFormulationModel implements IAlgorithmCore 
     public Solution Calculate(boolean initialized) throws Exception {
         if(initialized){
             if(this.intermediateSolutionCallback!=null){
-                this.intermediateSolutionCallback.HandleIntermediateSolution(this.unsolvedSolution,this.amqpHandler);
+                Integer score=new VariableConverter(new DateTimeConverter()).getMakespanFromSolution(this.unsolvedSolution);
+                this.intermediateSolutionCallback.HandleIntermediateSolution(this.unsolvedSolution,this.amqpHandler,score);
             }
         }
         DateTimeConverter dateTimeConverter=new DateTimeConverter();
@@ -155,7 +157,7 @@ public class OrToolCpSolverWithDirectFormulationModel implements IAlgorithmCore 
             if(this.intermediateSolutionCallback!=null){
                 this.unsolvedSolution.FinalResult=false;
                 try {
-                    this.intermediateSolutionCallback.HandleIntermediateSolution(this.unsolvedSolution,this.amqpHandler);
+                    this.intermediateSolutionCallback.HandleIntermediateSolution(this.unsolvedSolution,this.amqpHandler,Integer.parseInt(new java.text.DecimalFormat("0").format(objectiveValue())));
                 } catch (Exception e) {
                     logger.error(e.getMessage(),e);
                 }
